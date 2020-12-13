@@ -1,0 +1,4 @@
+requests~=2.25.0
+urllib3~=1.26.2
+pymongo~=3.11.2
+setuptools~=51.0.0

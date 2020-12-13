@@ -3,8 +3,11 @@ import base64
 from pymongo import MongoClient
 from pymongo.database import Database
 
+from .github import get_secret
 
-def get_mongo(passwd_b64, host='mongodb://mongo.licsber.site',
+
+def get_mongo(passwd_b64=get_secret('MONGO_PASSWD_B64'),
+              host='mongodb://mongo.licsber.site',
               port=47107, db_name='auto', username='Automatic'
               ) -> Database:
     """
@@ -16,6 +19,8 @@ def get_mongo(passwd_b64, host='mongodb://mongo.licsber.site',
     :param username: 具有数据库权限的用户名.
     :return: mongo数据库连接.
     """
+    if not passwd_b64:
+        passwd_b64 = input('请输入mongo数据库连接密码(base64表示).')
     c = MongoClient(host, port)
     db = c[db_name]
     db.authenticate(username, base64.b64decode(passwd_b64).decode('utf-8'))

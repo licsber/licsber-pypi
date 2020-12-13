@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='licsber',
-    version='0.0.3',
+    version='0.0.4',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -16,7 +16,8 @@ setup(
     long_description=long_description,
     packages=['licsber'],
     install_requires=[
-        'pymongo'
+        'pymongo',
+        'requests'
     ],
     entry_points={
         'console_scripts': [

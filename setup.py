@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='licsber',
-    version='0.0.6',
+    version='0.0.7',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -21,7 +21,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'licsber=licsber:info'
+            'licsber=licsber:licsber',
+            'count-dir=licsber:count_dir'
         ]
     },
     classifiers=[

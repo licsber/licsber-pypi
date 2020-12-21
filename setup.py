@@ -8,13 +8,17 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='licsber',
-    version='0.0.9',
+    version='0.0.10',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
     description=u'个人娱乐工具箱.',
     long_description=long_description,
-    packages=['licsber'],
+    packages=[
+        'licsber',
+        'licsber.mail',
+        'licsber.utils'
+    ],
     install_requires=[
         'pymongo',
         'requests'

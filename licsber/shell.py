@@ -2,7 +2,7 @@ import os
 import sys
 
 
-def count_dir(start=None):
+def _check_exist(start):
     if not start:
         start = os.getcwd() if len(sys.argv) == 1 else os.path.join(os.getcwd(), sys.argv[1])
 
@@ -11,6 +11,41 @@ def count_dir(start=None):
         exit(-1)
 
     print(f'目录 {start} :')
+    return start
+
+
+def walk_files(res: list, start):
+    for i in os.listdir(start):
+        path = os.path.join(start, i)
+        if os.path.isdir(path):
+            walk_files(res, path)
+        else:
+            res.append(path)
+
+
+def flatten_dir(start=None):
+    start = _check_exist(start)
+    start = os.path.abspath(start)
+
+    all = []
+    walk_files(all, start)
+
+    start_len = len(start)
+    for i in all:
+        dst = i[start_len + 1:]
+        dst = dst.replace(os.sep, '-')
+        dst = os.path.join(start, dst)
+        os.rename(i, dst)
+        print(f"移动: {dst}")
+    for i in os.listdir(start):
+        path = os.path.join(start, i)
+        if os.path.isdir(path):
+            print(f"删除: {path}")
+            os.removedirs(path)
+
+
+def count_dir(start=None):
+    start = _check_exist(start)
     nums = {
         'file': 0,
         'dir': 0

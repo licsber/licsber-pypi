@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 
 
@@ -41,7 +42,7 @@ def flatten_dir(start=None):
         path = os.path.join(start, i)
         if os.path.isdir(path):
             print(f"删除: {path}")
-            os.removedirs(path)
+            shutil.rmtree(path)
 
 
 def count_dir(start=None):

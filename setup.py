@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='licsber',
-    version='0.0.13',
+    version='0.1.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -17,11 +17,14 @@ setup(
     packages=[
         'licsber',
         'licsber.mail',
-        'licsber.utils'
+        'licsber.utils',
+        'licsber.auth'
     ],
     install_requires=[
         'pymongo',
-        'requests'
+        'requests',
+        'beautifulsoup4',
+        'pycrypto'
     ],
     entry_points={
         'console_scripts': [

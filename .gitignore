@@ -1,5 +1,7 @@
-.idea
+.idea/
 dist/
 venv/
 tests/
 licsber.egg-info/
+
+debug.html

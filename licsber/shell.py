@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 
+from licsber.notice import send_text_message
 
 def _check_exist(start):
     if not start:
@@ -68,3 +69,6 @@ def count_dir(start=None):
 
 def licsber():
     print('Hello, Licsber.')
+
+def memobird(ak:str, device_id:str, text:str):
+    send_text_message(ak, device_id, text)

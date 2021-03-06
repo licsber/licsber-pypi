@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='licsber',
-    version='0.1.0',
+    version='0.1.1',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -16,9 +16,10 @@ setup(
     long_description=long_description,
     packages=[
         'licsber',
-        'licsber.mail',
+        'licsber.auth',
         'licsber.utils',
-        'licsber.auth'
+        'licsber.mail',
+        'licsber.notice',
     ],
     install_requires=[
         'pymongo',
@@ -30,7 +31,8 @@ setup(
         'console_scripts': [
             'licsber=licsber:licsber',
             'count-dir=licsber:count_dir',
-            'flatten_dir=licsber:flatten_dir'
+            'flatten_dir=licsber:flatten_dir',
+            'memobird=licsber:memobird',
         ]
     },
     classifiers=[

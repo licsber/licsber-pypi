@@ -11,6 +11,13 @@ URLS = {
 
 
 def set_user_bind(ak: str, device_id: str, identifying='licsber') -> str:
+    """
+    绑定userid.
+    :param ak: 开发者ak.
+    :param device_id: 设备id 双击机器吐出来的.
+    :param identifying: 用户自定义字符串.
+    :return: 绑定成功的userid, 失败返回空串.
+    """
     params = {
         'ak': ak,
         'timestamp': get_timestamp_str(),
@@ -25,6 +32,14 @@ def set_user_bind(ak: str, device_id: str, identifying='licsber') -> str:
 
 
 def send_text_message(ak: str, device_id: str, text: str, userid=None) -> str:
+    """
+    向咕咕机发送纯文本消息.
+    :param ak: 开发者ak.
+    :param device_id: 设备id 双击机器吐出来的.
+    :param text: 文本信息.
+    :param userid: 可选的userid.
+    :return: 打印id, 失败返回空串.
+    """
     params = {
         'ak': ak,
         'timestamp': get_timestamp_str(),
@@ -36,10 +51,16 @@ def send_text_message(ak: str, device_id: str, text: str, userid=None) -> str:
     if res['showapi_res_code'] != 1:
         print(res)
         return ''
-    return res['printcontentid']
+    return str(res['printcontentid'])
 
 
 def get_status(ak: str, print_id: str) -> str:
+    """
+    获取消息发送的状态.
+    :param ak: 开发者ak.
+    :param print_id: 打印接口返回的打印id.
+    :return: 已经打印返回1, 失败返回空串.
+    """
     params = {
         'ak': ak,
         'timestamp': get_timestamp_str(),
@@ -49,4 +70,4 @@ def get_status(ak: str, print_id: str) -> str:
     if res['showapi_res_code'] != 1:
         print(res)
         return ''
-    return res['printflag']
+    return str(res['printflag'])

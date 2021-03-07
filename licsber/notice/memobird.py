@@ -1,5 +1,7 @@
 import requests
 
+from licsber import get_mongo
+from licsber.utils import get_timestamp
 from licsber.utils import get_timestamp_str
 from licsber.utils import to_gbk_base64
 
@@ -71,3 +73,18 @@ def get_status(ak: str, print_id: str) -> str:
         print(res)
         return ''
     return str(res['printflag'])
+
+
+def log_message(mongo_passwd_b64: str, message: str):
+    """
+    生成mongo日志, 偷懒的接口.
+    :param mongo_passwd_b64: mongo密码 同get_mongo的参数.
+    :param message: 文本信息.
+    :return: 插入结果.
+    """
+    db = get_mongo(mongo_passwd_b64)['memobird']
+    return db.insert_one({
+        'ctime': get_timestamp(),
+        'text': message,
+        'print': False,
+    })

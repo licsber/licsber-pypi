@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='licsber',
-    version='0.2.0',
+    version='1.0.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -20,7 +20,7 @@ setuptools.setup(
         'pymongo',
         'requests',
         'beautifulsoup4',
-        'pycrypto',
+        'pycryptodome',
     ],
     entry_points={
         'console_scripts': [

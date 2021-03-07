@@ -3,8 +3,6 @@ import os
 import shutil
 import sys
 
-from licsber.notice import send_text_message
-
 
 def _check_exist(start):
     if not start:
@@ -74,6 +72,8 @@ def licsber():
 
 
 def memobird():
+    from licsber.notice.memobird import send_text_message
+
     parser = argparse.ArgumentParser(description='发送信息给咕咕机.')
     parser.add_argument('ak')
     parser.add_argument('device_id')

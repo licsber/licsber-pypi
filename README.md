@@ -13,7 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
-0.1.1 增加咕咕机提醒功能.  
+0.2.0 增加咕咕机提醒功能.  
 0.1.0 增加wisedu的登录api.  
 0.0.12 增加shell命令 flatten-dir.  
 0.0.7 增加shell命令 count-dir.  

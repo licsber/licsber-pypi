@@ -1,8 +1,10 @@
+import argparse
 import os
 import shutil
 import sys
 
 from licsber.notice import send_text_message
+
 
 def _check_exist(start):
     if not start:
@@ -70,5 +72,12 @@ def count_dir(start=None):
 def licsber():
     print('Hello, Licsber.')
 
-def memobird(ak:str, device_id:str, text:str):
-    send_text_message(ak, device_id, text)
+
+def memobird():
+    parser = argparse.ArgumentParser(description='发送信息给咕咕机.')
+    parser.add_argument('ak')
+    parser.add_argument('device_id')
+    parser.add_argument('text', nargs='?', default='Hello from Licsber.')
+    args = parser.parse_args()
+
+    send_text_message(args.ak, args.device_id, args.text)

@@ -1,7 +1,6 @@
 import requests
 
 from licsber import get_mongo
-from licsber.utils import get_timestamp
 from licsber.utils import get_timestamp_str
 from licsber.utils import to_gbk_base64
 
@@ -84,7 +83,7 @@ def log_message(mongo_passwd_b64: str, message: str):
     """
     db = get_mongo(mongo_passwd_b64)['memobird']
     return db.insert_one({
-        'ctime': get_timestamp(),
+        'type': 'plain',
         'text': message,
         'print': False,
     })

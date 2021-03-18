@@ -13,6 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.2.0 增加ml处理xyxy和xywh相互转换.  
 1.1.0 增加log_message函数.   
 1.0.1 增加注释.  
 1.0.0 移除pycrypto 替换为pycryptodome.  

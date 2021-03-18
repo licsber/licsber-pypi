@@ -3,12 +3,12 @@
 
 import setuptools
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
 
 setuptools.setup(
     name='licsber',
-    version='1.1.1',
+    version='1.2.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -21,6 +21,7 @@ setuptools.setup(
         'requests',
         'beautifulsoup4',
         'pycryptodome',
+        'numpy',
     ],
     entry_points={
         'console_scripts': [

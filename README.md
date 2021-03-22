@@ -13,6 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.4.0 增加mongo的random_get方法.  
 1.3.0 迁移spider函数, 增加mul_get方法.  
 1.2.0 增加ml处理xyxy和xywh相互转换.  
 1.1.0 增加log_message函数.   

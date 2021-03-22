@@ -3,7 +3,7 @@ import base64
 from pymongo import MongoClient
 from pymongo.database import Database
 
-from .github import get_secret
+from licsber.github import get_secret
 
 
 def get_mongo(passwd_b64=get_secret('MONGO_PASSWD_B64'),

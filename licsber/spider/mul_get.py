@@ -17,6 +17,8 @@ def _get_content(session: requests.Session, url: str, timeout: int):
         return b'Error, 404.'
     if res.status_code == 403:
         return b'Error, 403.'
+    if res.status_code == 400:
+        return b'Error, 400.'
     raise Exception(res.status_code)
 
 
@@ -57,7 +59,7 @@ def mul_get_content(urls: list[str],
                     workers_num: int = 32,
                     delay: int = 0.5,
                     session: requests.Session = None,
-                    timeout: int = 3) -> list[(str, bytes)]:
+                    timeout: int = 2) -> list[(str, bytes)]:
     """
     多线程发送GET请求，获取URL内容。
     常用于批量爬取页面，下载图片等用途。

@@ -13,6 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.4.3 增加random_get方法project参数.  
 1.4.2 mongo改为默认连接时connect=False.  
 1.4.0 增加mongo的random_get方法.  
 1.3.0 迁移spider函数, 增加mul_get方法.  

@@ -13,6 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.6.0 增加腾讯云API网关hmac签名算法.  
 1.5.0 增加离线S3存储签名功能.  
 1.4.3 增加random_get方法project参数.  
 1.4.2 mongo改为默认连接时connect=False.  

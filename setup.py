@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='1.4.3',
+    version='1.5.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -22,6 +22,7 @@ setuptools.setup(
         'beautifulsoup4',
         'pycryptodome',
         'numpy',
+        'minio',
     ],
     entry_points={
         'console_scripts': [

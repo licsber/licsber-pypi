@@ -4,7 +4,7 @@
 
 个人娱乐, 供参考.
 
-## 命令介绍
+## Shell命令介绍
 
 licsber: Hello world.  
 count-dir: 统计目录下的文件与目录数.  
@@ -13,6 +13,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.5.0 增加离线S3存储签名功能.  
 1.4.3 增加random_get方法project参数.  
 1.4.2 mongo改为默认连接时connect=False.  
 1.4.0 增加mongo的random_get方法.  
@@ -33,4 +34,6 @@ memobird: 发送咕咕机消息.
 x.y.z  
 x: 不兼容的大更新 如依赖库发生的改变  
 y: 兼容的功能更新  
-z: bug fix  
+z: bug fix
+
+中间被略过的版本一般是bug fix, 切记不要使用.  

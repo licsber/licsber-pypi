@@ -82,6 +82,10 @@ def empty_dir(start=None):
     count = 0
     all_dirs = []
     for root, dirs, files in os.walk(start, topdown=False):
+        for i in files:
+            if i == '.DS_Store':
+                os.remove(os.path.join(root, i))
+            print(f"删除.DS_Store: {root}")
         all_dirs.append(root)
 
     for root in all_dirs:

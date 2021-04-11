@@ -1,7 +1,8 @@
-import argparse
 import os
 import shutil
 import sys
+
+from licsber.utils import cal_time
 
 
 def _check_exist(start):
@@ -25,6 +26,7 @@ def walk_files(res: list, start):
             res.append(path)
 
 
+@cal_time(output=True)
 def flatten_dir(start=None):
     start = _check_exist(start)
     start = os.path.abspath(start)
@@ -46,6 +48,7 @@ def flatten_dir(start=None):
             shutil.rmtree(path)
 
 
+@cal_time(output=True)
 def count_dir(start=None):
     start = _check_exist(start)
     nums = {
@@ -67,17 +70,23 @@ def count_dir(start=None):
     print(f'共有{nums["file"]}个文件.')
 
 
-def licsber():
-    print('Hello, Licsber.')
+@cal_time(output=True)
+def empty_dir(start=None):
+    """
+    递归删除空文件夹, 如果当前目录删除完也是空的, 一起删除.
+    :param start: 开始路径.
+    :return:
+    """
+    start = _check_exist(start)
 
+    count = 0
+    all_dirs = []
+    for root, dirs, files in os.walk(start, topdown=False):
+        all_dirs.append(root)
 
-def memobird():
-    from licsber.notice.memobird import send_text_message
+    for root in all_dirs:
+        count += 1
+        print(f"删除目录: {root}")
+        os.rmdir(root)
 
-    parser = argparse.ArgumentParser(description='发送信息给咕咕机.')
-    parser.add_argument('ak')
-    parser.add_argument('device_id')
-    parser.add_argument('text', nargs='?', default='Hello from Licsber.')
-    args = parser.parse_args()
-
-    send_text_message(args.ak, args.device_id, args.text)
+    print(f"共删除{count}个空目录.")

@@ -9,10 +9,12 @@
 licsber: Hello world.  
 count-dir: 统计目录下的文件与目录数.  
 flatten-dir: 递归展开当前目录下所有子文件夹到当前目录.  
+empty-dir: 递归删除当前目录下所有空文件夹.    
 memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+1.7.0 增加删除空文件夹命令empty-dir.   
 1.6.0 增加腾讯云API网关hmac签名算法.  
 1.5.0 增加离线S3存储签名功能.  
 1.4.3 增加random_get方法project参数.  

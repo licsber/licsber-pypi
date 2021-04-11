@@ -14,7 +14,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
-1.7.2 更改empty-dir也会删除.DS_Store.  
+1.7.3 更改empty-dir也会删除.DS_Store.  
 1.7.1 增加删除空文件夹命令empty-dir.   
 1.6.0 增加腾讯云API网关hmac签名算法.  
 1.5.0 增加离线S3存储签名功能.  

@@ -85,8 +85,9 @@ def empty_dir(start=None):
         all_dirs.append(root)
 
     for root in all_dirs:
-        count += 1
-        print(f"删除目录: {root}")
-        os.rmdir(root)
+        if not os.listdir(root):
+            count += 1
+            print(f"删除目录: {root}")
+            os.rmdir(root)
 
     print(f"共删除{count}个空目录.")

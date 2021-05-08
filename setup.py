@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='1.8.0',
+    version='2.0.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -23,6 +23,9 @@ setuptools.setup(
         'pycryptodome',
         'numpy',
         'minio',
+        'matplotlib',
+        'opencv-python',
+        'h5py',
     ],
     entry_points={
         'console_scripts': [

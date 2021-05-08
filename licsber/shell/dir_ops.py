@@ -95,3 +95,11 @@ def empty_dir(start=None):
             os.rmdir(root)
 
     print(f"共删除{count}个空目录.")
+
+
+def clean_ds_store(start):
+    for root, dirs, files in os.walk(start):
+        for i in files:
+            if i == '.DS_Store':
+                print(f"删除.DS_Store: {root}")
+                os.remove(os.path.join(root, i))

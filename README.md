@@ -14,6 +14,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+2.0.0 增加cv.imshow 自动转化bgr为rgb.  
 1.8.0 更改get_mongo的连接行为.  
 1.7.3 更改empty-dir也会删除.DS_Store.  
 1.7.1 增加删除空文件夹命令empty-dir.   

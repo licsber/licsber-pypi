@@ -4,5 +4,6 @@
 /tests/
 /licsber.egg-info/
 /spider/
+/licsber/auth/models/
 
 debug.html

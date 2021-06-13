@@ -1,0 +1,2 @@
+include licsber/auth/models/inference.pdiparams
+include licsber/auth/models/inference.pdmodel

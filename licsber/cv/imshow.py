@@ -1,8 +1,9 @@
+import cv2
 import matplotlib.pyplot as plt
 
 
 def imshow(img):
-    if img.shape[2] != 3:
+    if len(img.shape) != 3:
         plt.imshow(img)
         return
 

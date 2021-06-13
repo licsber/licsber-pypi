@@ -1,3 +1,4 @@
+import random
 import time
 
 
@@ -16,6 +17,15 @@ def get_timestamp() -> int:
     :return: 自1970年1月1日 0点0分0秒以来的秒数.
     """
     now_time = time.time()
+    return int(now_time)
+
+
+def get_timestamp_mil() -> int:
+    """
+    获取1970年到现在UTC的秒数.
+    :return: 自1970年1月1日 0点0分0秒以来的秒数.
+    """
+    now_time = time.time() * 1000 + random.randint(0, 999)
     return int(now_time)
 
 

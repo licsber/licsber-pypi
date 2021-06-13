@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='2.0.0',
+    version='2.1.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -16,6 +16,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=[
         'pymongo',
         'requests',
@@ -26,6 +27,7 @@ setuptools.setup(
         'matplotlib',
         'opencv-python',
         'h5py',
+        'paddlepaddle~=2.1.0',
     ],
     entry_points={
         'console_scripts': [

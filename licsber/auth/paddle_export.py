@@ -1,7 +1,6 @@
 import os
 
 import paddle as pp
-from paddle.jit import to_static
 
 _now_path = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(_now_path, 'models', '610.pdopt')
@@ -85,5 +84,5 @@ if __name__ == '__main__':
     opt_state_dict = pp.load(MODEL_PATH)
     optimizer.set_state_dict(opt_state_dict)
 
-    net = to_static(net, input_spec=[inputs])
+    net = pp.jit.to_static(net, input_spec=[inputs])
     pp.jit.save(net, 'models/inference')

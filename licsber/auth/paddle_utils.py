@@ -53,12 +53,3 @@ def predict_captcha(img):
     output_handle = _predictor.get_output_handle(output_names[0])
     output_data = output_handle.copy_to_cpu()
     return label_arr2text(ctc_decode(output_data[0]))
-
-
-if __name__ == '__main__':
-    CAPTCHA_URL = 'http://authserver.njit.edu.cn/authserver/captcha.html'
-    import requests
-
-    inputs = requests.get(CAPTCHA_URL)
-    res = predict_captcha(inputs.content)
-    print(res)

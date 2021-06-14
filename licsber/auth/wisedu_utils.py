@@ -38,13 +38,13 @@ def encrypt(pwd, salt):
 
 
 def check_captcha(text):
-    CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'
+    SIMPLE_CHAR_LIST = '134578ABCDEFHKNPQXYcfkxy'
 
     if len(text) != 4:
         return False
 
     for ch in text:
-        if ch not in CHAR_LIST:
+        if ch not in SIMPLE_CHAR_LIST:
             return False
 
     return True

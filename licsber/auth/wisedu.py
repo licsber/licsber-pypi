@@ -9,12 +9,14 @@ from licsber.auth.wisedu_utils import need_captcha
 from licsber.spider import get_session
 
 
-def get_wisedu_session(url, no, pwd, captcha_retry=3):
+def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):
     """
     对接"金智教务统一登录系统"的API.
     :param url: 访问跳转登录页的url, 通常以authserver开头.
     :param no: 学号.
     :param pwd: 密码.
+    :param captcha_retry: 默认验证码重试次数(准确率90%以上).
+    :param remember_me: 是否勾选免登录.
     :return: 一个登录完成的session, 可以继续访问接下来的网页.
     """
 
@@ -46,9 +48,10 @@ def get_wisedu_session(url, no, pwd, captcha_retry=3):
             if 'name' in i.attrs and i['name'] in data:
                 data[i['name']] = i['value']
 
-        data['rememberMe'] = 'on'
         data['username'] = no
         data['password'] = encrypt(pwd, salt)
+        if remember_me:
+            data['rememberMe'] = 'on'
         if require_captcha:
             data['captchaResponse'] = captcha
 

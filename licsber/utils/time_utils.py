@@ -53,9 +53,9 @@ def cal_time(output=False, fps=False):
             real_time = time.time() - last
             if output:
                 if fps:
-                    print(f"FPS: {1 / real_time:.2f}")
+                    print(f"FPS: {1 / real_time:.3f}")
                 else:
-                    print(f"执行时间: {real_time:.2f}s")
+                    print(f"执行时间: {real_time:.3f}s")
             if not res:
                 return None
             return real_time, res

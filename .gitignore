@@ -4,6 +4,9 @@
 /tests/
 /licsber.egg-info/
 /spider/
-/licsber/auth/models/
+
+/licsber/auth/models/*
+!/licsber/auth/models/inference.pdiparams
+!/licsber/auth/models/inference.pdmodel
 
 debug.html

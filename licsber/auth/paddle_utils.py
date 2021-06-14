@@ -6,8 +6,7 @@ import paddle.inference as pi
 
 from licsber.utils import parse_img
 
-HEIGHT = 34
-WIDTH = 92
+CHANNEL, HEIGHT, WIDTH = (3, 34, 92)
 CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'
 
 _now_path = os.path.dirname(__file__)
@@ -17,11 +16,16 @@ PARAMS_PATH = os.path.join(_now_path, 'models', 'inference.pdiparams')
 _config = pi.Config(MODEL_PATH, PARAMS_PATH)
 _predictor = pi.create_predictor(_config)
 
-
-def pre_process(img):
-    _, binary = cv2.threshold(img, 0x70, 1, cv2.THRESH_BINARY)
-    binary = binary[:, :, 0]
-    return np.array(binary, dtype='float32').reshape((1, HEIGHT, WIDTH))
+if CHANNEL == 1:
+    def pre_process(img):
+        _, binary = cv2.threshold(img, 0x70, 1, cv2.THRESH_BINARY)
+        binary = binary[:, :, 0]
+        return np.array(binary, dtype='float32').reshape((1, HEIGHT, WIDTH))
+elif CHANNEL == 3:
+    def pre_process(img):
+        return np.array(img, dtype='float32').reshape([CHANNEL, HEIGHT, WIDTH]) / 255
+else:
+    print('error, cannot pre_process img like this.')
 
 
 def ctc_decode(text, blank=len(CHAR_LIST)):

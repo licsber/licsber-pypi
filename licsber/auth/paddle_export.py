@@ -3,16 +3,17 @@ import os
 import paddle as pp
 
 _now_path = os.path.dirname(__file__)
-MODEL_PATH = os.path.join(_now_path, 'models', '610.pdopt')
-PARAMS_PATH = os.path.join(_now_path, 'models', '610.pdparams')
+MODEL_NAME = 'final'
+MODEL_PATH = os.path.join(_now_path, 'models', f"{MODEL_NAME}.pdopt")
+PARAMS_PATH = os.path.join(_now_path, 'models', f"{MODEL_NAME}.pdparams")
 
-HEIGHT = 34
-WIDTH = 92
+CHANNEL, HEIGHT, WIDTH = (3, 34, 92)
+CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'
 YZM_LENGTH = 4
 
-CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'
 CLASSIFY_NUM = len(CHAR_LIST) + 1
 BATCH_SIZE = 5120
+LEARNING_RATE = 0.0001
 CHANNELS_BASE = 64
 
 
@@ -21,7 +22,7 @@ class Net(pp.nn.Layer):
         super().__init__()
         self.is_infer = is_infer
 
-        self.conv1 = pp.nn.Conv2D(in_channels=1,
+        self.conv1 = pp.nn.Conv2D(in_channels=CHANNEL,
                                   out_channels=CHANNELS_BASE,
                                   kernel_size=3)
         self.bn1 = pp.nn.BatchNorm2D(CHANNELS_BASE)
@@ -74,13 +75,13 @@ class CTCLoss(pp.nn.Layer):
 
 
 if __name__ == '__main__':
-    inputs = pp.static.InputSpec(shape=[-1, 1, HEIGHT, WIDTH], dtype='float32', name='img')
+    inputs = pp.static.InputSpec(shape=[-1, CHANNEL, HEIGHT, WIDTH], dtype='float32', name='img')
 
     net = Net(is_infer=True)
     model_state_dict = pp.load(PARAMS_PATH)
     net.set_state_dict(model_state_dict)
 
-    optimizer = pp.optimizer.Adam(learning_rate=0.0001, parameters=net.parameters())
+    optimizer = pp.optimizer.Adam(learning_rate=LEARNING_RATE, parameters=net.parameters())
     opt_state_dict = pp.load(MODEL_PATH)
     optimizer.set_state_dict(opt_state_dict)
 

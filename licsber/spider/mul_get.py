@@ -3,6 +3,7 @@ import random
 import threading
 import time
 from queue import Empty
+from typing import List
 
 import requests
 
@@ -55,11 +56,11 @@ def _loop(session: requests.Session,
         req_queue.task_done()
 
 
-def mul_get_content(urls: list[str],
+def mul_get_content(urls: List[str],
                     workers_num: int = 32,
                     delay: int = 0.5,
                     session: requests.Session = None,
-                    timeout: int = 2) -> list[(str, bytes)]:
+                    timeout: int = 2) -> List[(str, bytes)]:
     """
     多线程发送GET请求，获取URL内容。
     常用于批量爬取页面，下载图片等用途。

@@ -14,6 +14,7 @@ memobird: 发送咕咕机消息.
 
 ## 版本说明
 
+2.2.0 mongo获取最新数据(sort+limit)函数.  
 2.1.2 优化验证码模型为3通道直接输入 完全端到端.  
 2.1.0 新增PaddlePaddle验证码识别模型.  
 2.0.0 增加cv.imshow 自动转化bgr为rgb.  

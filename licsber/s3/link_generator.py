@@ -4,7 +4,7 @@ from threading import Lock
 from bson import ObjectId
 
 from licsber.mongo import random_get, idd_split_path
-from licsber.s3 import S3Sign
+from .pre_sign import S3Sign
 
 
 class LinkGen:

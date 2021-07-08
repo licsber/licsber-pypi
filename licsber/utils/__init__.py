@@ -1,4 +1,5 @@
 from .base64_utils import to_gbk_base64
+from .get_next_no import get_next_no
 from .parse_img import parse_img
 from .time_utils import cal_time
 from .time_utils import get_now_date

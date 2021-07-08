@@ -16,13 +16,19 @@ class S3Saver:
         self.db.create_index('suffix')
         self.re = re.compile(r'[a-z0-9]+/[a-z0-9]/[a-z0-9]/([a-z0-9]{24})\..*')
 
-    def fput(self, filepath, save_md5=True):
+    def fput(self, filepath, save_md5=True, filename=False, dir_name=''):
         basename = os.path.basename(filepath)
         suffix = os.path.splitext(basename)[-1].strip('.')
         doc = {
             'suffix': suffix,
             'size': os.path.getsize(filepath),
         }
+        if filename:
+            doc['name'] = basename
+
+        if dir_name:
+            doc['dir'] = dir_name
+
         if save_md5:
             doc['md5'] = hashlib.md5(open(filepath, 'rb').read()).hexdigest()
 

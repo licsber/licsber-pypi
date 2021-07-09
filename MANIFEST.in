@@ -1,2 +1,3 @@
+include licsber/mail/notice_template.html
 include licsber/auth/models/inference.pdiparams
 include licsber/auth/models/inference.pdmodel

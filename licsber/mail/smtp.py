@@ -4,7 +4,7 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from licsber.utils import get_now_date
+from licsber.utils import get_now_date_str
 
 
 def _parse_dict(detail: dict) -> str:
@@ -16,14 +16,16 @@ def _parse_dict(detail: dict) -> str:
 
 class SMTP:
     def __init__(self, password,
-                 mail_address='silverwings233@qq.com',
+                 mail_address,
                  smtp_server='smtp.qq.com',
                  sender=None,
                  username=None):
         if not sender:
             sender = mail_address
+
         if not username:
             username = mail_address
+
         self.sender = sender
         self.smtp = smtplib.SMTP()
 
@@ -57,7 +59,7 @@ class SMTP:
         if type(detail) is dict:
             detail = _parse_dict(detail)
 
-        mail_title = get_now_date() + ' ' + mail_title
+        mail_title = get_now_date_str() + ' ' + mail_title
 
         msg = MIMEMultipart('alternative')
 

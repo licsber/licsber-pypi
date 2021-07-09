@@ -12,4 +12,5 @@ def parse_img(inputs):
         return cv2.imread(inputs)
     elif type(inputs) == bytes:
         return cv2.imdecode(np.frombuffer(inputs, np.uint8), cv2.COLOR_RGBA2RGB)
-    return inputs
+    else:
+        return inputs

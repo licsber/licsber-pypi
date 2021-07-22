@@ -19,9 +19,25 @@ def _check_exist(start):
 
 
 @cal_time(output=True)
+def rename(start=None):
+    start = _check_exist(start)
+    start = os.path.abspath(start)
+
+    for filename in os.listdir(start):
+        filepath = os.path.join(start, filename)
+        if os.path.isfile(filepath):
+            meta = Meta(filepath)
+            suffix = os.path.splitext(filepath)[1]
+            sha1 = meta.sha1()
+            dst_path = os.path.join(start, f"{sha1}.{suffix}" if suffix else sha1)
+            os.rename(filepath, dst_path)
+
+
+@cal_time(output=True)
 def archive(start=None):
     start = _check_exist(start)
     start = os.path.abspath(start)
+
     res = 'Key,Filename,Size,SHA1,CRC32\n'
     for root, dirs, files in os.walk(start):
         for file in files:

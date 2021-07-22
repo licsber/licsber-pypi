@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 
+from licsber.utils import Meta
 from licsber.utils import cal_time
 
 
@@ -15,6 +16,22 @@ def _check_exist(start):
 
     print(f'目录 {start} :')
     return start
+
+
+@cal_time(output=True)
+def archive(start=None):
+    start = _check_exist(start)
+    start = os.path.abspath(start)
+    res = 'Key,Filename,Size,SHA1,CRC32\n'
+    for root, dirs, files in os.walk(start):
+        for file in files:
+            filepath = os.path.join(root, file)
+            meta = Meta(filepath)
+            basename, size, sha1, crc32 = meta.meta()
+            res += f"{filepath},{basename},{size},{sha1},{crc32}\n"
+
+    with open(os.path.join(start, 'tree.licsber.csv'), 'w') as f:
+        f.write(res)
 
 
 def walk_files(res: list, start):
@@ -83,9 +100,16 @@ def empty_dir(start=None):
     all_dirs = []
     for root, dirs, files in os.walk(start, topdown=False):
         for i in files:
+            filepath = os.path.join(root, i)
+            meta_path = os.path.join(root, '._' + i)
             if i == '.DS_Store':
-                os.remove(os.path.join(root, i))
+                os.remove(filepath)
                 print(f"删除.DS_Store: {root}")
+            elif os.path.exists(meta_path):
+                meta = open(meta_path, 'rb').read()
+                if b'This resource fork intentionally left blank' in meta:
+                    os.remove(meta_path)
+                print(f"删除元文件: {meta_path}")
         all_dirs.append(root)
 
     for root in all_dirs:

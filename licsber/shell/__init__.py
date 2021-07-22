@@ -1,3 +1,4 @@
+from .dir_ops import archive
 from .dir_ops import clean_ds_store
 from .dir_ops import count_dir
 from .dir_ops import empty_dir

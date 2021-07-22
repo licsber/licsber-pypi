@@ -10,10 +10,12 @@ licsber: Hello world.
 count-dir: 统计目录下的文件与目录数.  
 flatten-dir: 递归展开当前目录下所有子文件夹到当前目录.  
 empty-dir: 递归删除当前目录下所有空文件夹.    
-memobird: 发送咕咕机消息.
+memobird: 发送咕咕机消息.  
+archive: 生成当前目录下的所有文件的SHA1和CRC32校验码.
 
 ## 版本说明
 
+2.6.0 增加archive命令.  
 2.4.0 部分重构项目目录 修复S3Saver创建bucket.  
 2.3.2 mongo+minio分别存储元数据与文件本身.  
 2.2.1 mongo获取最新数据(sort+limit)函数.  

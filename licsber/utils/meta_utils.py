@@ -1,6 +1,6 @@
+import hashlib
 import os
-from hashlib import sha1 as sha
-from zlib import crc32 as crc
+import zlib
 
 
 class Meta:
@@ -26,17 +26,33 @@ class Meta:
         return self._c
 
     def sha1(self):
-        sha1_obj = sha()
+        sha1_obj = hashlib.sha1()
         content = self.content()
         sha1_obj.update(content)
         return sha1_obj.hexdigest()
 
     def crc32(self):
         content = self.content()
-        return format(crc(content), 'x')
+        return format(zlib.crc32(content), 'x')
 
     def basename(self):
         return os.path.basename(self._p)
+
+    def gen_115_link(self):
+        basename = self.basename()
+        size = self.size()
+        sha1 = self.sha1().upper()
+        with open(self._p, 'rb') as f:
+            sha1_obj = hashlib.sha1()
+            num_bytes = 128 * 1024
+            content = f.read(num_bytes)
+            if (l := len(content)) < num_bytes:
+                content += b'\0' * (num_bytes - l)
+
+            sha1_obj.update(content)
+            head_sha1 = sha1_obj.hexdigest().upper()
+
+        return f"115://{basename}|{size}|{sha1}|{head_sha1}"
 
     def meta(self):
         basename = self.basename()
@@ -60,3 +76,4 @@ if __name__ == '__main__':
     meta = Meta(test_path)
     meta.save_meta()
     print(meta)
+    assert meta.gen_115_link() == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'

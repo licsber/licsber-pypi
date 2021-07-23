@@ -1,89 +1,83 @@
 import os
 import shutil
-import sys
 
 from licsber.utils import Meta
 from licsber.utils import cal_time
+from licsber.utils.file_utils import fun_check_path_exist, walk_files
 
 
-def _check_exist(start):
-    if not start:
-        start = os.getcwd() if len(sys.argv) == 1 else os.path.join(os.getcwd(), sys.argv[1])
-
-    if not os.path.exists(start):
-        print(f'目录 {start} 不存在, 请检查.')
-        exit(-1)
-
-    print(f'目录 {start} :')
-    return start
-
-
-@cal_time(output=True)
-def rename(start=None):
-    start = _check_exist(start)
-    start = os.path.abspath(start)
-
-    for filename in os.listdir(start):
-        filepath = os.path.join(start, filename)
+def _all_filepath(start_path):
+    for filename in os.listdir(start_path):
+        filepath = os.path.join(start_path, filename)
         if os.path.isfile(filepath):
-            meta = Meta(filepath)
-            suffix = os.path.splitext(filepath)[1]
-            sha1 = meta.sha1()
-            dst_path = os.path.join(start, f"{sha1}.{suffix}" if suffix else sha1)
-            os.rename(filepath, dst_path)
+            yield filepath
+
+
+def _save_file(save_path, filename, text):
+    with open(os.path.join(save_path, filename), 'w') as f:
+        f.write(text)
 
 
 @cal_time(output=True)
-def archive(start=None):
-    start = _check_exist(start)
-    start = os.path.abspath(start)
+@fun_check_path_exist(clean=True)
+def save_115_link(start_path=None):
+    res = ''
+    for filepath in _all_filepath(start_path):
+        meta = Meta(filepath)
+        res += meta.gen_115_link() + '\n'
 
+    _save_file(start_path, '115_links.txt', res)
+
+
+@cal_time(output=True)
+@fun_check_path_exist(clean=True)
+def rename(start_path=None):
+    for filepath in _all_filepath(start_path):
+        meta = Meta(filepath)
+        suffix = os.path.splitext(filepath)[1]
+        sha1 = meta.sha1()
+        dst_name = f"{sha1}.{suffix}" if not suffix.startswith('.') else f"{sha1}{suffix}"
+        dst_path = os.path.join(start_path, dst_name if suffix else sha1)
+        os.rename(filepath, dst_path)
+
+
+@cal_time(output=True)
+@fun_check_path_exist(clean=True)
+def archive(start_path=None):
     res = 'Key,Filename,Size,SHA1,CRC32\n'
-    for root, dirs, files in os.walk(start):
-        for file in files:
-            filepath = os.path.join(root, file)
-            meta = Meta(filepath)
-            basename, size, sha1, crc32 = meta.meta()
-            res += f"{filepath},{basename},{size},{sha1},{crc32}\n"
+    for filepath in _all_filepath(start_path):
+        filepath = os.path.relpath(filepath)
+        meta = Meta(filepath)
+        basename, size, sha1, crc32 = meta.meta()
+        res += f'"{filepath}","{basename}",{size},{sha1},{crc32}\n'
 
-    with open(os.path.join(start, 'tree.licsber.csv'), 'w') as f:
-        f.write(res)
-
-
-def walk_files(res: list, start):
-    for i in os.listdir(start):
-        path = os.path.join(start, i)
-        if os.path.isdir(path):
-            walk_files(res, path)
-        else:
-            res.append(path)
+    _save_file(start_path, 'tree.licsber.csv', res)
 
 
 @cal_time(output=True)
-def flatten_dir(start=None):
-    start = _check_exist(start)
-    start = os.path.abspath(start)
-
+@fun_check_path_exist(clean=True)
+def flatten_dir(start_path=None):
     all = []
-    walk_files(all, start)
+    walk_files(all, start_path)
 
-    start_len = len(start)
+    start_len = len(start_path)
     for i in all:
         dst = i[start_len + 1:]
         dst = dst.replace(os.sep, '-')
-        dst = os.path.join(start, dst)
+        dst = os.path.join(start_path, dst)
         os.rename(i, dst)
         print(f"移动: {dst}")
-    for i in os.listdir(start):
-        path = os.path.join(start, i)
+
+    for i in os.listdir(start_path):
+        path = os.path.join(start_path, i)
         if os.path.isdir(path):
             print(f"删除: {path}")
             shutil.rmtree(path)
 
 
 @cal_time(output=True)
-def count_dir(start=None):
-    start = _check_exist(start)
+@fun_check_path_exist()
+def count_dir(start_path=None):
     nums = {
         'file': 0,
         'dir': 0
@@ -98,34 +92,22 @@ def count_dir(start=None):
             else:
                 nums['file'] += 1
 
-    _walk(start)
+    _walk(start_path)
     print(f'共有{nums["dir"]}个子目录.')
     print(f'共有{nums["file"]}个文件.')
 
 
 @cal_time(output=True)
-def empty_dir(start=None):
+@fun_check_path_exist(clean=True)
+def empty_dir(start_path=None):
     """
     递归删除空文件夹, 如果当前目录删除完也是空的, 一起删除.
-    :param start: 开始路径.
-    :return:
+    :param start_path: 开始路径.
     """
-    start = _check_exist(start)
 
     count = 0
     all_dirs = []
-    for root, dirs, files in os.walk(start, topdown=False):
-        for i in files:
-            filepath = os.path.join(root, i)
-            meta_path = os.path.join(root, '._' + i)
-            if i == '.DS_Store':
-                os.remove(filepath)
-                print(f"删除.DS_Store: {root}")
-            elif os.path.exists(meta_path):
-                meta = open(meta_path, 'rb').read()
-                if b'This resource fork intentionally left blank' in meta:
-                    os.remove(meta_path)
-                print(f"删除元文件: {meta_path}")
+    for root, _, _ in os.walk(start_path, topdown=False):
         all_dirs.append(root)
 
     for root in all_dirs:
@@ -135,11 +117,3 @@ def empty_dir(start=None):
             os.rmdir(root)
 
     print(f"共删除{count}个空目录.")
-
-
-def clean_ds_store(start):
-    for root, dirs, files in os.walk(start):
-        for i in files:
-            if i == '.DS_Store':
-                print(f"删除.DS_Store: {root}")
-                os.remove(os.path.join(root, i))

@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='2.7.0',
+    version='2.8.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -31,13 +31,14 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'licsber=licsber:licsber',
-            'count-dir=licsber:count_dir',
-            'flatten-dir=licsber:flatten_dir',
-            'empty-dir=licsber:empty_dir',
-            'memobird=licsber:memobird',
-            'archive=licsber:archive',
-            'rename=licsber:rename',
+            'licsber=licsber.shell.hello:licsber',
+            'memobird=licsber.shell:memobird',
+            'count-dir=licsber.shell.dir_ops:count_dir',
+            'flatten-dir=licsber.shell.dir_ops:flatten_dir',
+            'empty-dir=licsber.shell.dir_ops:empty_dir',
+            'archive=licsber.shell.dir_ops:archive',
+            'rename=licsber.shell.dir_ops:rename',
+            'save-115=licsber.shell.dir_ops:save_115_link'
         ],
     },
     classifiers=[

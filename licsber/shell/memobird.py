@@ -1,6 +1,6 @@
 import argparse
 
-from licsber.notice.memobird import send_text_message
+from hello.notice.memobird import send_text_message
 
 
 def memobird():

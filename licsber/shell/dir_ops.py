@@ -1,6 +1,8 @@
 import os
 import shutil
 
+import tqdm
+
 from licsber.utils import Meta
 from licsber.utils import cal_time
 from licsber.utils.file_utils import fun_check_path_exist, walk_files
@@ -22,7 +24,8 @@ def _save_file(save_path, filename, text):
 @fun_check_path_exist(clean=True)
 def save_115_link(start_path=None):
     res = ''
-    for filepath in _all_filepath(start_path):
+    all_filepath = list(_all_filepath(start_path))
+    for filepath in tqdm.tqdm(all_filepath):
         meta = Meta(filepath)
         res += meta.gen_115_link() + '\n'
 

@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='2.8.0',
+    version='3.0.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -28,6 +28,7 @@ setuptools.setup(
         'opencv-python',
         'h5py',
         'paddlepaddle~=2.1.0',
+        'tqdm',
     ],
     entry_points={
         'console_scripts': [

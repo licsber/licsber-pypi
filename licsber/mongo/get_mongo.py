@@ -1,9 +1,8 @@
 import base64
 
+from licsber.github import get_secret
 from pymongo import MongoClient
 from pymongo.database import Database
-
-from licsber.github import get_secret
 
 
 class Mongo:

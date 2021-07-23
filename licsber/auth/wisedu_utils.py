@@ -3,8 +3,7 @@ import random
 
 import requests
 from Crypto.Cipher import AES
-
-from licsber.utils import get_timestamp_mil
+from licsber.utils.utime import get_timestamp_mil
 
 CAPTCHA_URL = 'http://authserver.njit.edu.cn/authserver/captcha.html'
 

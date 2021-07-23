@@ -3,8 +3,7 @@ import os
 import cv2
 import numpy as np
 import paddle.inference as pi
-
-from licsber.utils import parse_img
+from licsber.utils.uimg import parse_img
 
 CHANNEL, HEIGHT, WIDTH = (3, 34, 92)
 CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'

@@ -4,7 +4,7 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from licsber.utils import get_now_date_str
+from licsber.utils.utime import get_now_date_str
 
 
 def _parse_dict(detail: dict) -> str:

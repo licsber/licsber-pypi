@@ -1,18 +1,7 @@
 import functools
+import inspect
 import os
 import sys
-
-
-def walk_files(res: list, start_path):
-    """
-    传入一个list, 递归遍历start_path, 向list中添加文件路径.
-    """
-    for i in os.listdir(start_path):
-        path = os.path.join(start_path, i)
-        if os.path.isdir(path):
-            walk_files(res, path)
-        else:
-            res.append(path)
 
 
 def check_path_exist(start=None):
@@ -51,7 +40,10 @@ def fun_check_path_exist(arg_name='start_path', clean=False, print_path=True):
         def wrapper(*args, **kwargs):
             path = kwargs[arg_name] if hasattr(kwargs, arg_name) else None
             path = check_path_exist(path)
-            kwargs[arg_name] = path
+
+            sign = inspect.signature(fun)
+            if sign.parameters[arg_name].default != inspect.Parameter.empty:
+                kwargs[arg_name] = path
 
             if print_path:
                 print(f'传入目录: {path}')
@@ -64,3 +56,31 @@ def fun_check_path_exist(arg_name='start_path', clean=False, print_path=True):
         return wrapper
 
     return decorator
+
+
+def all_filepath(start_path):
+    for filename in os.listdir(start_path):
+        filepath = os.path.join(start_path, filename)
+        if os.path.isfile(filepath):
+            yield filepath
+
+
+def walk_files(res: list, start_path):
+    """
+    传入一个list, 递归遍历start_path, 向list中添加文件路径.
+    """
+    for i in os.listdir(start_path):
+        path = os.path.join(start_path, i)
+        if os.path.isdir(path):
+            walk_files(res, path)
+        else:
+            res.append(path)
+
+
+@fun_check_path_exist(arg_name='save_path', print_path=False)
+def save_file(save_path, filename, text):
+    """
+    忽略这个函数 库中代码减少行数使用 也为了方便调试
+    """
+    with open(os.path.join(save_path, filename), 'w') as f:
+        f.write(text)

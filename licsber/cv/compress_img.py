@@ -24,7 +24,7 @@ def comp_2d(image_2d, rate):
     return recon_img_mat
 
 
-def compress(content, rate=30):
+def compress_img(content, rate=30):
     data = cv2.imdecode(np.frombuffer(content, np.uint8), cv2.IMREAD_COLOR)
     a_g = data[:, :, 0]
     a_b = data[:, :, 1]

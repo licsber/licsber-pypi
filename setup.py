@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='3.0.0',
+    version='3.1.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -39,7 +39,8 @@ setuptools.setup(
             'empty-dir=licsber.shell.dir_ops:empty_dir',
             'archive=licsber.shell.dir_ops:archive',
             'rename=licsber.shell.dir_ops:rename',
-            'save-115=licsber.shell.dir_ops:save_115_link'
+            'save-115=licsber.shell.cloud_drive:save_115_link',
+            'conv=licsber.shell.cloud_drive:conv',
         ],
     },
     classifiers=[

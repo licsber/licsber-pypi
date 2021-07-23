@@ -1,12 +1,8 @@
-import cv2
-import matplotlib.pyplot as plt
+from licsber.utils import uimg
 
 
-def imshow(img):
-    if len(img.shape) != 3:
-        plt.imshow(img)
-        return
-
-    b, g, r = cv2.split(img)
-    rgb = cv2.merge([r, g, b])
-    plt.imshow(rgb)
+def imshow(*args, **kwargs):
+    """
+    保持兼容性
+    """
+    return uimg.imshow(*args, **kwargs)

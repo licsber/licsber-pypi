@@ -1,12 +1,9 @@
 from bs4 import BeautifulSoup as bs4
+from licsber.auth import predict_captcha
+from licsber.spider import get_session
 from requests.compat import urljoin
 
-from licsber.auth.paddle_utils import predict_captcha
-from licsber.auth.wisedu_utils import check_captcha
-from licsber.auth.wisedu_utils import encrypt
-from licsber.auth.wisedu_utils import get_captcha
-from licsber.auth.wisedu_utils import need_captcha
-from licsber.spider import get_session
+from .wisedu_utils import need_captcha, check_captcha, get_captcha, encrypt
 
 
 def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):

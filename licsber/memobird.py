@@ -1,8 +1,7 @@
 import requests
-
-from licsber import get_mongo
-from licsber.utils import get_timestamp_str
-from licsber.utils import to_gbk_base64
+from licsber.mongo import get_mongo
+from licsber.utils.ubase64 import to_gbk_base64
+from licsber.utils.utime import get_timestamp_str
 
 URLS = {
     'set_user_bind': 'https://open.memobird.cn/home/setuserbind',

@@ -1,41 +1,15 @@
 import os
 import shutil
 
-import tqdm
-
-from licsber.utils import Meta
-from licsber.utils import cal_time
-from licsber.utils.file_utils import fun_check_path_exist, walk_files
-
-
-def _all_filepath(start_path):
-    for filename in os.listdir(start_path):
-        filepath = os.path.join(start_path, filename)
-        if os.path.isfile(filepath):
-            yield filepath
-
-
-def _save_file(save_path, filename, text):
-    with open(os.path.join(save_path, filename), 'w') as f:
-        f.write(text)
-
-
-@cal_time(output=True)
-@fun_check_path_exist(clean=True)
-def save_115_link(start_path=None):
-    res = ''
-    all_filepath = list(_all_filepath(start_path))
-    for filepath in tqdm.tqdm(all_filepath):
-        meta = Meta(filepath)
-        res += meta.gen_115_link() + '\n'
-
-    _save_file(start_path, '115_links.txt', res)
+from licsber.utils.ufile import fun_check_path_exist, walk_files, all_filepath, save_file
+from licsber.utils.umeta import Meta
+from licsber.utils.utime import cal_time
 
 
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
 def rename(start_path=None):
-    for filepath in _all_filepath(start_path):
+    for filepath in all_filepath(start_path):
         meta = Meta(filepath)
         suffix = os.path.splitext(filepath)[1]
         sha1 = meta.sha1()
@@ -48,13 +22,13 @@ def rename(start_path=None):
 @fun_check_path_exist(clean=True)
 def archive(start_path=None):
     res = 'Key,Filename,Size,SHA1,CRC32\n'
-    for filepath in _all_filepath(start_path):
+    for filepath in all_filepath(start_path):
         filepath = os.path.relpath(filepath)
         meta = Meta(filepath)
         basename, size, sha1, crc32 = meta.meta()
         res += f'"{filepath}","{basename}",{size},{sha1},{crc32}\n'
 
-    _save_file(start_path, 'tree.licsber.csv', res)
+    save_file(start_path, 'tree.licsber.csv', res)
 
 
 @cal_time(output=True)

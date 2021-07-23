@@ -5,11 +5,7 @@ from collections import defaultdict
 import cv2
 import h5py
 import numpy as np
-
 from licsber.datasets import DATASETS_PATH
-from licsber.shell import clean_ds_store
-from licsber.shell import empty_dir
-from licsber.utils import cal_time
 
 
 class SeTu1024:

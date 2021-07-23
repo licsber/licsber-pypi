@@ -7,16 +7,34 @@
 ## Shell命令介绍
 
 licsber: Hello world.  
+memobird: 发送咕咕机消息.  
 count-dir: 统计目录下的文件与目录数.  
 flatten-dir: 递归展开当前目录下所有子文件夹到当前目录.  
 empty-dir: 递归删除当前目录下所有空文件夹.    
-memobird: 发送咕咕机消息.  
 archive: 生成当前目录下的所有文件的SHA1和CRC32校验码.   
-rename: 将单个目录内所有文件重命名为SHA1值.
+rename: 将单个目录内所有文件重命名为SHA1值.  
+save-115: 将目录下所有文件保存为115Link形式.  
+conv: 将115Link转化为阿里云盘Link.
+
+## 主要包介绍
+
+auth: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证  
+cv: 数据集拍照助手|notebook环境imshow  
+datasets: 个人制作发布的数据集(仅在群里公开过)  
+mail: 含一个美化过的提醒模板用于bot任务  
+ml: MachineLearning常用的封装  
+mongo: PyMongo的封装|与s3配合可以实现一个元数据与内容分离的FS  
+s3: MinIO库的封装|包含离线制作OSS签名|随机取OSS内容  
+spider: 爬虫封装|获取自定义session|多线程下载  
+shell: licsber库提供的shell命令|查看代码后谨慎使用  
+utils: 库自身用的工具/标准库封装  
+github: 用于Github Actions的封装  
+json: 便捷预览
 
 ## 版本说明
 
-3.0.0 增加tqdm依赖.  
+3.1.0 增加115链接格式转换阿里云盘.  
+3.0.1 增加tqdm依赖.  
 2.8.0 增加递归获取115链接.  
 2.7.4 增加rename命令.  
 2.6.0 增加archive命令.  

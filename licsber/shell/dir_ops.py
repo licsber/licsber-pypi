@@ -12,7 +12,7 @@ def rename(start_path=None):
     for filepath in all_filepath(start_path):
         meta = Meta(filepath)
         suffix = os.path.splitext(filepath)[1]
-        sha1 = meta.sha1()
+        sha1, _ = meta.get_sha1_and_md5()
         dst_name = f"{sha1}.{suffix}" if not suffix.startswith('.') else f"{sha1}{suffix}"
         dst_path = os.path.join(start_path, dst_name if suffix else sha1)
         os.rename(filepath, dst_path)
@@ -21,12 +21,12 @@ def rename(start_path=None):
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
 def archive(start_path=None):
-    res = 'Key,Filename,Size,SHA1,CRC32\n'
+    res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5\n'
     for filepath in all_filepath(start_path):
         filepath = os.path.relpath(filepath)
         meta = Meta(filepath)
-        basename, size, sha1, crc32 = meta.meta()
-        res += f'"{filepath}","{basename}",{size},{sha1},{crc32}\n'
+        basename, size, sha1, head_hash, md5 = meta.meta()
+        res += f'"{filepath}","{basename}",{size},{sha1},{head_hash},{md5}\n'
 
     save_file(start_path, 'tree.licsber.csv', res)
 

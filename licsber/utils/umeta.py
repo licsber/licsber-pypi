@@ -1,70 +1,91 @@
 import hashlib
 import os
-import zlib
 
 
 class Meta:
-    def __init__(self, filepath):
+    def __init__(self, filepath, buf_size=4 * 1024 * 1024):
         abs_path = os.path.abspath(filepath)
-        self._p = abs_path
-        self._c = None
-
         if not os.path.exists(abs_path):
             print(f"文件不存在 请检查: {abs_path}")
             exit(-1)
 
-    def save_meta(self):
-        with open(self._p + '.licsber.csv', 'w') as f:
-            f.write(str(self))
+        self.buf_size = buf_size
 
-    def size(self):
-        return os.path.getsize(self._p)
-
-    def content(self):
-        if not self._c:
-            self._c = open(self._p, 'rb').read()
-        return self._c
-
-    def sha1(self):
-        sha1_obj = hashlib.sha1()
-        content = self.content()
-        sha1_obj.update(content)
-        return sha1_obj.hexdigest()
-
-    def crc32(self):
-        content = self.content()
-        return format(zlib.crc32(content), 'x')
-
-    def basename(self):
-        return os.path.basename(self._p)
+        self._path = abs_path
+        self._basename = os.path.basename(filepath)
+        self._size = os.path.getsize(filepath)
+        self._sha1 = None
+        self._md5 = None
+        self._115_head_hash = None
 
     def gen_115_link(self):
-        basename = self.basename()
-        size = self.size()
-        sha1 = self.sha1().upper()
-        with open(self._p, 'rb') as f:
+        sha1, _ = self.get_sha1_and_md5()
+        head_sha1 = self.get_115_head_hash()
+        return f"115://{self._basename}|{self._size}|{sha1}|{head_sha1}"
+
+    def gen_ali_link(self):
+        sha1, _ = self.get_sha1_and_md5()
+        return f"aliyunpan://{self._basename}|{sha1}|{self._size}|TMP"
+
+    def save_meta(self):
+        with open(self._path + '.licsber.csv', 'w') as f:
+            f.write(str(self))
+
+    def get_basename(self):
+        return self._basename
+
+    def get_size(self):
+        return self._size
+
+    def get_sha1_and_md5(self):
+        def cal():
             sha1_obj = hashlib.sha1()
-            num_bytes = 128 * 1024
-            content = f.read(num_bytes)
-            if (l := len(content)) < num_bytes:
-                content += b'\0' * (num_bytes - l)
+            md5_obj = hashlib.md5()
+            with open(self._path, 'rb') as f:
+                while True:
+                    content = f.read(self.buf_size)
+                    if not content:
+                        break
 
-            sha1_obj.update(content)
-            head_sha1 = sha1_obj.hexdigest().upper()
+                    sha1_obj.update(content)
+                    md5_obj.update(content)
 
-        return f"115://{basename}|{size}|{sha1}|{head_sha1}"
+            self._sha1 = sha1_obj.hexdigest().upper()
+            self._md5 = md5_obj.hexdigest().upper()
+
+        if not self._sha1 or not self._md5:
+            cal()
+
+        return self._sha1, self._md5
+
+    def get_115_head_hash(self):
+        def cal():
+            with open(self._path, 'rb') as f:
+                sha1_obj = hashlib.sha1()
+                num_bytes = 128 * 1024
+                content = f.read(num_bytes)
+                if (l := len(content)) < num_bytes:
+                    content += b'\0' * (num_bytes - l)
+
+                sha1_obj.update(content)
+                self._115_head_hash = sha1_obj.hexdigest().upper()
+
+        if not self._115_head_hash:
+            cal()
+
+        return self._115_head_hash
 
     def meta(self):
-        basename = self.basename()
-        size = self.size()
-        sha1 = self.sha1()
-        crc32 = self.crc32()
-        return basename, size, sha1, crc32
+        self.gen_115_link()
+        return self._basename, self._size, self._sha1, self._115_head_hash, self._md5
 
     def __str__(self):
-        res = 'Key,Filename,Size,SHA1,CRC32\n'
-        basename, size, sha1, crc32 = self.meta()
-        res += f"Value,{basename},{size},{sha1},{crc32}\n"
+        res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5\n'
+        sha1, md5 = self.get_sha1_and_md5()
+        head_sha1 = self.get_115_head_hash()
+        res += f"Value,{self._basename},{self._size},{sha1},{head_sha1},{md5}\n"
+        res += f",,,,,{self.gen_115_link()}\n"
+        res += f",,,,,{self.gen_ali_link()}\n"
         return res
 
 
@@ -75,5 +96,5 @@ if __name__ == '__main__':
 
     meta = Meta(test_path)
     meta.save_meta()
-    print(meta)
+    print(meta, end='')
     assert meta.gen_115_link() == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'

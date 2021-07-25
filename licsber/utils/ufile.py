@@ -38,11 +38,17 @@ def fun_check_path_exist(arg_name='start_path', clean=False, print_path=True):
     def decorator(fun):
         @functools.wraps(fun)
         def wrapper(*args, **kwargs):
-            path = kwargs[arg_name] if hasattr(kwargs, arg_name) else None
+            sign = inspect.signature(fun)
+
+            # Not using sign.bind_partial() because in this decorator,
+            # we dont want arguments be loss except None
+            # 不用sign.bind_partial() 如果缺少参数报ValueError而不是添加
+            bound_arguments = sign.bind(*args, **kwargs)
+            path = bound_arguments.arguments.get(arg_name)
+            insert = path is None
             path = check_path_exist(path)
 
-            sign = inspect.signature(fun)
-            if sign.parameters[arg_name].default != inspect.Parameter.empty:
+            if insert:
                 kwargs[arg_name] = path
 
             if print_path:

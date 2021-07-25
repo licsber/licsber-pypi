@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -11,6 +12,11 @@ from licsber.utils.utime import cal_time
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
 def save_115_link(start_path=None):
+    if os.path.isfile(start_path):
+        meta = Meta(start_path)
+        print(meta)
+        return
+
     res = ''
     waiting = list(all_filepath(start_path))
     waiting.sort()
@@ -19,6 +25,38 @@ def save_115_link(start_path=None):
         res += meta.gen_115_link() + '\n'
 
     save_file(start_path, '115_links.txt', res)
+
+
+@cal_time(output=True)
+@fun_check_path_exist(clean=True)
+def save_115_dir(start_path=None):
+    if not os.path.isdir(start_path):
+        print(f"选定目录错误: {start_path}")
+        return
+
+    save_path = os.path.join(start_path, 'licsber_115.json')
+    if os.path.exists(save_path):
+        os.remove(save_path)
+
+    def build(root):
+        node = {
+            'dir_name': os.path.basename(root),
+            'dirs': [],
+            'files': [],
+        }
+        for i in os.listdir(root):
+            path = os.path.join(root, i)
+            if os.path.isdir(path):
+                node['dirs'].extend([build(path)])
+            elif os.path.isfile(path):
+                meta = Meta(path)
+                link = meta.gen_115_link().lstrip('115://')
+                node['files'].append(link)
+
+        return node
+
+    res = build(start_path)
+    save_file(start_path, 'licsber_115.json', json.dumps(res))
 
 
 @cal_time(output=True)

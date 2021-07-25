@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='3.2.1',
+    version='3.3.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -40,6 +40,7 @@ setuptools.setup(
             'archive=licsber.shell.dir_ops:archive',
             'rename=licsber.shell.dir_ops:rename',
             'save-115=licsber.shell.cloud_drive:save_115_link',
+            'save-115-dir=licsber.shell.cloud_drive:save_115_dir',
             'conv=licsber.shell.cloud_drive:conv',
         ],
     },

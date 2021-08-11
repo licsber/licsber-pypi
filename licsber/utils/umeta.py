@@ -17,6 +17,7 @@ class Meta:
         self._sha1 = None
         self._md5 = None
         self._115_head_hash = None
+        self._baidu_head_hash = None
 
     def gen_115_link(self):
         sha1, _ = self.get_sha1_and_md5()
@@ -63,6 +64,24 @@ class Meta:
             with open(self._path, 'rb') as f:
                 sha1_obj = hashlib.sha1()
                 num_bytes = 128 * 1024
+                content = f.read(num_bytes)
+                if (l := len(content)) < num_bytes:
+                    content += b'\0' * (num_bytes - l)
+
+                sha1_obj.update(content)
+                self._115_head_hash = sha1_obj.hexdigest().upper()
+
+        if not self._115_head_hash:
+            cal()
+
+        return self._115_head_hash
+
+    def get_baidu_head_hash(self):
+        # todo 暂时还没做
+        def cal():
+            with open(self._path, 'rb') as f:
+                sha1_obj = hashlib.sha1()
+                num_bytes = 256 * 1024 * 1024
                 content = f.read(num_bytes)
                 if (l := len(content)) < num_bytes:
                     content += b'\0' * (num_bytes - l)

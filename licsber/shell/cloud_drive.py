@@ -47,6 +47,9 @@ def save_115_dir(start_path=None):
         for i in os.listdir(root):
             path = os.path.join(root, i)
             if os.path.isdir(path):
+                if os.path.basename(path) in {'.@__thumb', '@Recycle', '@Transcode'}:
+                    continue
+
                 node['dirs'].extend([build(path)])
             elif os.path.isfile(path):
                 meta = Meta(path)
@@ -67,7 +70,7 @@ def conv(start_path=None):
         exit(-1)
 
     dirname = os.path.dirname(start_path)
-    root_name = os.path.basename(dirname)
+    root_name = 'Video[Licsber]/' + os.path.basename(start_path).rstrip('.txt')
     root_name = sys.argv[2] if len(sys.argv) == 3 else root_name
 
     res, line = '', ''

@@ -12,6 +12,11 @@ from licsber.utils.utime import cal_time
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
 def save_115_link(start_path=None):
+    """
+    预计将要废弃 请使用save-115-dir这个更好用的命令
+    :param start_path: 
+    :return:
+    """
     if os.path.isfile(start_path):
         meta = Meta(start_path)
         print(meta)
@@ -22,7 +27,7 @@ def save_115_link(start_path=None):
     waiting.sort()
     for filepath in tqdm.tqdm(waiting):
         meta = Meta(filepath)
-        res += meta.gen_115_link() + '\n'
+        res += meta.get_115_link() + '\n'
 
     save_file(start_path, '115_links.txt', res)
 
@@ -43,6 +48,7 @@ def save_115_dir(start_path=None):
             'dir_name': os.path.basename(root),
             'dirs': [],
             'files': [],
+            'baidu': [],
         }
         for i in os.listdir(root):
             path = os.path.join(root, i)
@@ -53,8 +59,10 @@ def save_115_dir(start_path=None):
                 node['dirs'].extend([build(path)])
             elif os.path.isfile(path):
                 meta = Meta(path)
-                link = meta.gen_115_link().lstrip('115://')
+                link = meta.get_115_link().lstrip('115://')
+                baidu_link = meta.get_baidu_link()
                 node['files'].append(link)
+                node['baidu'].append(baidu_link)
 
         return node
 
@@ -70,7 +78,7 @@ def conv(start_path=None):
         exit(-1)
 
     dirname = os.path.dirname(start_path)
-    root_name = 'Video[Licsber]/' + os.path.basename(start_path).rstrip('.txt')
+    root_name = 'TMP[Licsber]/' + os.path.basename(start_path).rstrip('.txt')
     root_name = sys.argv[2] if len(sys.argv) == 3 else root_name
 
     res, line = '', ''

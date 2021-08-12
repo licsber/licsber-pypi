@@ -4,93 +4,105 @@ import os
 
 class Meta:
     def __init__(self, filepath, buf_size=4 * 1024 * 1024):
-        abs_path = os.path.abspath(filepath)
-        if not os.path.exists(abs_path):
-            print(f"文件不存在 请检查: {abs_path}")
+        abspath = os.path.abspath(filepath)
+        if not os.path.exists(abspath):
+            print(f"文件不存在 请检查: {abspath}")
             exit(-1)
 
         self.buf_size = buf_size
 
-        self._path = abs_path
-        self._basename = os.path.basename(filepath)
-        self._size = os.path.getsize(filepath)
-        self._sha1 = None
-        self._md5 = None
-        self._115_head_hash = None
-        self._baidu_head_hash = None
+        self._meta = {
+            'abspath': abspath,
+            'basename': os.path.basename(filepath),
+            'size': os.path.getsize(filepath),
+            'sha1': None,
+            'md5': None,
+            '115_sha1': None,
+            'baidu_md5': None,
+        }
+        self._cal_all()
 
-    def gen_115_link(self):
-        sha1, _ = self.get_sha1_and_md5()
-        head_sha1 = self.get_115_head_hash()
-        return f"115://{self._basename}|{self._size}|{sha1}|{head_sha1}"
+    def get_115_link(self):
+        return f"115://{self.basename}|{self.size}|{self.sha1}|{self.head_sha1}"
 
-    def gen_ali_link(self):
-        sha1, _ = self.get_sha1_and_md5()
-        return f"aliyunpan://{self._basename}|{sha1}|{self._size}|TMP"
+    def get_ali_link(self):
+        return f"aliyunpan://{self.basename}|{self.sha1}|{self.size}|TMP[Licsber]"
+
+    def get_baidu_link(self):
+        return f"{self.md5}#{self.head_md5}#{self.size}#{self.basename}"
 
     def save_meta(self):
-        with open(self._path + '.licsber.csv', 'w') as f:
+        with open(self.abspath + '.licsber.csv', 'w') as f:
             f.write(str(self))
 
-    def get_basename(self):
-        return self._basename
+    def __str__(self):
+        res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5,HeadMD5\n'
+        res += f"Value,{self.basename},{self.size},{self.sha1},{self.head_sha1},{self.md5},{self.head_md5}\n"
+        res += f",,,,,,{self.get_115_link()}\n"
+        res += f",,,,,,{self.get_ali_link()}\n"
+        res += f",,,,,,{self.get_baidu_link()}"
+        return res
 
-    def get_size(self):
-        return self._size
+    @property
+    def abspath(self):
+        return self._meta['abspath']
 
-    def get_sha1_and_md5(self):
-        def cal():
+    @property
+    def basename(self):
+        return self._meta['basename']
+
+    @property
+    def size(self):
+        return self._meta['size']
+
+    @property
+    def sha1(self):
+        return self._meta['sha1']
+
+    @property
+    def md5(self):
+        return self._meta['md5']
+
+    @property
+    def head_sha1(self):
+        return self._meta['115_sha1']
+
+    @property
+    def head_md5(self):
+        return self._meta['baidu_md5']
+
+    def _cal_all(self):
+        with open(self.abspath, 'rb') as f:
+            head_sha1_obj = hashlib.sha1()
+            num_bytes = 128 * 1024
+            content = f.read(num_bytes)
+            if (l := len(content)) < num_bytes:
+                content += b'\0' * (num_bytes - l)
+            head_sha1_obj.update(content)
+            self._meta['115_sha1'] = head_sha1_obj.hexdigest().upper()
+
+            f.seek(0)
+            head_md5_obj = hashlib.md5()
+            num_bytes = 256 * 1024
+            content = f.read(num_bytes)
+            if (l := len(content)) < num_bytes:
+                content += b'\0' * (num_bytes - l)
+            head_md5_obj.update(content)
+            self._meta['baidu_md5'] = head_md5_obj.hexdigest().upper()
+
+            f.seek(0)
             sha1_obj = hashlib.sha1()
             md5_obj = hashlib.md5()
-            with open(self._path, 'rb') as f:
-                while True:
-                    content = f.read(self.buf_size)
-                    if not content:
-                        break
-
-                    sha1_obj.update(content)
-                    md5_obj.update(content)
-
-            self._sha1 = sha1_obj.hexdigest().upper()
-            self._md5 = md5_obj.hexdigest().upper()
-
-        if not self._sha1 or not self._md5:
-            cal()
-
-        return self._sha1, self._md5
-
-    def get_115_head_hash(self):
-        def cal():
-            with open(self._path, 'rb') as f:
-                sha1_obj = hashlib.sha1()
-                num_bytes = 128 * 1024
-                content = f.read(num_bytes)
-                if (l := len(content)) < num_bytes:
-                    content += b'\0' * (num_bytes - l)
+            while True:
+                content = f.read(self.buf_size)
+                if not content:
+                    break
 
                 sha1_obj.update(content)
-                self._115_head_hash = sha1_obj.hexdigest().upper()
+                md5_obj.update(content)
 
-        if not self._115_head_hash:
-            cal()
-
-        return self._115_head_hash
-
-    def get_baidu_head_hash(self):
-        raise Exception('暂时还没做')
-
-    def meta(self):
-        self.gen_115_link()
-        return self._basename, self._size, self._sha1, self._115_head_hash, self._md5
-
-    def __str__(self):
-        res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5\n'
-        sha1, md5 = self.get_sha1_and_md5()
-        head_sha1 = self.get_115_head_hash()
-        res += f"Value,{self._basename},{self._size},{sha1},{head_sha1},{md5}\n"
-        res += f",,,,,{self.gen_115_link()}\n"
-        res += f",,,,,{self.gen_ali_link()}\n"
-        return res
+            self._meta['sha1'] = sha1_obj.hexdigest().upper()
+            self._meta['md5'] = md5_obj.hexdigest().upper()
 
 
 if __name__ == '__main__':
@@ -101,4 +113,4 @@ if __name__ == '__main__':
     meta = Meta(test_path)
     meta.save_meta()
     print(meta, end='')
-    assert meta.gen_115_link() == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'
+    assert meta.get_115_link() == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'

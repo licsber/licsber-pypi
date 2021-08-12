@@ -4,7 +4,7 @@ import random
 import requests
 from Crypto.Cipher import AES
 
-from licsber.utils.utime import get_timestamp_mil
+from licsber.utils.utime import timestamp_mil
 
 CAPTCHA_URL = 'http://authserver.njit.edu.cn/authserver/captcha.html'
 
@@ -64,7 +64,7 @@ def need_captcha(url: str, session: requests.Session, no):
     params = {
         'username': no,
         'pwdEncrypt2': 'pwdEncryptSalt',
-        '_': get_timestamp_mil(),
+        '_': timestamp_mil(),
     }
     res = session.get(NEED_CAPTCHA_URL, params=params)
     return res.json()

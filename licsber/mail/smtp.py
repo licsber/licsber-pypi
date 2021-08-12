@@ -4,7 +4,7 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from licsber.utils.utime import get_now_date_str
+from licsber.utils.utime import localtime_date_str
 
 
 def _parse_dict(detail: dict) -> str:
@@ -59,7 +59,7 @@ class SMTP:
         if type(detail) is dict:
             detail = _parse_dict(detail)
 
-        mail_title = get_now_date_str() + ' ' + mail_title
+        mail_title = localtime_date_str() + ' ' + mail_title
 
         msg = MIMEMultipart('alternative')
 

@@ -3,8 +3,9 @@ import os.path
 import re
 
 from bson import ObjectId
-from licsber.mongo import idd_split_path
 from minio import Minio
+
+from licsber.mongo import idd_split_path
 
 
 class S3Saver:

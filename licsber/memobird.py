@@ -1,7 +1,8 @@
 import requests
+
 from licsber.mongo import get_mongo
 from licsber.utils.ubase64 import to_gbk_base64
-from licsber.utils.utime import get_timestamp_str
+from licsber.utils.utime import localtime_str
 
 URLS = {
     'set_user_bind': 'https://open.memobird.cn/home/setuserbind',
@@ -20,7 +21,7 @@ def set_user_bind(ak: str, device_id: str, identifying='licsber') -> str:
     """
     params = {
         'ak': ak,
-        'timestamp': get_timestamp_str(),
+        'timestamp': localtime_str(),
         'memobirdID': device_id,
         'useridentifying': identifying,
     }
@@ -42,7 +43,7 @@ def send_text_message(ak: str, device_id: str, text: str, userid=None) -> str:
     """
     params = {
         'ak': ak,
-        'timestamp': get_timestamp_str(),
+        'timestamp': localtime_str(),
         'printcontent': 'T:' + to_gbk_base64(text),
         'memobirdID': device_id,
         'userID': userid if userid else set_user_bind(ak, device_id, device_id),
@@ -63,7 +64,7 @@ def get_status(ak: str, print_id: str) -> str:
     """
     params = {
         'ak': ak,
-        'timestamp': get_timestamp_str(),
+        'timestamp': localtime_str(),
         'printcontentid': print_id,
     }
     res = requests.post(URLS['get_print_status'], params=params).json()

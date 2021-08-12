@@ -3,7 +3,7 @@ import random
 import time
 
 
-def get_now_date_str() -> str:
+def localtime_date_str() -> str:
     """
     获取当前本地日期, 格式为[2020-12-12].
     :return: 当前本地日期
@@ -12,7 +12,7 @@ def get_now_date_str() -> str:
     return time.strftime('%Y-%m-%d', now_time)
 
 
-def get_timestamp_str() -> str:
+def localtime_str() -> str:
     """
     获取当前本地时间, 格式为[2020-12-12 11:22:33].
     :return: 当前本地时间
@@ -21,7 +21,7 @@ def get_timestamp_str() -> str:
     return time.strftime('%Y-%m-%d %H:%M:%S', now_time)
 
 
-def get_timestamp_sec() -> int:
+def timestamp_sec() -> int:
     """
     获取1970年到现在UTC的秒数.
     :return: 自1970年1月1日 0点0分0秒以来的秒数.
@@ -30,7 +30,7 @@ def get_timestamp_sec() -> int:
     return int(now_time)
 
 
-def get_timestamp_mil() -> int:
+def timestamp_mil() -> int:
     """
     获取1970年到现在UTC的毫秒数.
     :return: 自1970年1月1日 0点0分0秒以来的毫秒数.

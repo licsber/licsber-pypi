@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup as bs4
-from licsber.auth import predict_captcha
-from licsber.spider import get_session
 from requests.compat import urljoin
 
+from licsber.spider import get_session
+from .paddle_utils import predict_captcha
 from .wisedu_utils import need_captcha, check_captcha, get_captcha, encrypt
 
 

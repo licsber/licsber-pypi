@@ -19,21 +19,21 @@ conv: 将115Link转化为阿里云盘Link.
 
 ## 主要包介绍
 
-auth: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证  
 cv: 数据集拍照助手|notebook环境imshow  
 datasets: 个人制作发布的数据集(仅在群里公开过)  
 mail: 含一个美化过的提醒模板用于bot任务  
 ml: MachineLearning常用的封装  
 mongo: PyMongo的封装|与s3配合可以实现一个元数据与内容分离的FS  
 s3: MinIO库的封装|包含离线制作OSS签名|随机取OSS内容  
-spider: 爬虫封装|获取自定义session|多线程下载  
 shell: licsber库提供的shell命令|查看代码后谨慎使用  
-utils: 库自身用的工具/标准库封装  
-github: 用于Github Actions的封装  
-json: 便捷预览
+spider: 爬虫封装|获取自定义session|多线程下载  
+utils: 标准库封装 不会出现任何第三方库  
+wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证  
+github: 用于Github Actions的封装
 
 ## 版本说明
 
+4.0.0 重构 改进部分依赖为可选依赖 兼容嵌入式设备.  
 3.4.2 save-115-dir时忽略QNAP缓存文件.  
 3.3.1 兼容gawwo/fake115-go的文件夹格式.  
 3.2.2 优化utils.umeta的内存占用.  

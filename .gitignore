@@ -5,8 +5,8 @@
 /licsber.egg-info/
 /spider/
 
-/licsber/auth/models/*
-!/licsber/auth/models/inference.pdiparams
-!/licsber/auth/models/inference.pdmodel
+/licsber/wisedu/models/*
+!/licsber/wisedu/models/inference.pdiparams
+!/licsber/wisedu/models/inference.pdmodel
 
 debug.html

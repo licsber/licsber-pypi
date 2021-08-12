@@ -77,22 +77,7 @@ class Meta:
         return self._115_head_hash
 
     def get_baidu_head_hash(self):
-        # todo 暂时还没做
-        def cal():
-            with open(self._path, 'rb') as f:
-                sha1_obj = hashlib.sha1()
-                num_bytes = 256 * 1024 * 1024
-                content = f.read(num_bytes)
-                if (l := len(content)) < num_bytes:
-                    content += b'\0' * (num_bytes - l)
-
-                sha1_obj.update(content)
-                self._115_head_hash = sha1_obj.hexdigest().upper()
-
-        if not self._115_head_hash:
-            cal()
-
-        return self._115_head_hash
+        raise Exception('暂时还没做')
 
     def meta(self):
         self.gen_115_link()

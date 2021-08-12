@@ -1,8 +1,16 @@
-from licsber.utils import uimg
+import cv2
+import matplotlib.pyplot as plt
 
 
-def imshow(*args, **kwargs):
+def imshow(img):
     """
-    保持兼容性
+    转换奇怪的bgr和rgb
+    :param img: numpy array
     """
-    return uimg.imshow(*args, **kwargs)
+    if len(img.shape) != 3:
+        plt.imshow(img)
+        return
+
+    b, g, r = cv2.split(img)
+    rgb = cv2.merge([r, g, b])
+    plt.imshow(rgb)

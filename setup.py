@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='3.5.0',
+    version='4.0.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -20,21 +20,36 @@ setuptools.setup(
     install_requires=[
         'pymongo',
         'requests',
-        'beautifulsoup4',
-        'pycryptodome',
-        'numpy',
-        'minio',
-        'matplotlib',
-        'opencv-python',
-        'h5py',
-        'paddlepaddle~=2.0',
         'tqdm',
     ],
-    extras_require=[],
+    extras_require={
+        'all': [
+            'opencv-python',
+            'paddlepaddle~=2.0',
+            'beautifulsoup4',
+            'pycryptodome',
+            'minio',
+            'h5py',
+            'matplotlib',
+        ],
+        'cv': [
+            'opencv-python',
+            'matplotlib',
+        ],
+        'wisedu': [
+            'opencv-python',
+            'paddlepaddle~=2.0',
+        ],
+        'datasets': [
+            'h5py',
+        ],
+        's3': [
+            'minio',
+        ],
+    },
     entry_points={
         'console_scripts': [
             'licsber=licsber.shell.hello:licsber',
-            'memobird=licsber.shell:memobird',
             'count-dir=licsber.shell.dir_ops:count_dir',
             'flatten-dir=licsber.shell.dir_ops:flatten_dir',
             'empty-dir=licsber.shell.dir_ops:empty_dir',
@@ -43,6 +58,7 @@ setuptools.setup(
             'save-115=licsber.shell.cloud_drive:save_115_link',
             'save-115-dir=licsber.shell.cloud_drive:save_115_dir',
             'conv=licsber.shell.cloud_drive:conv',
+            'memobird=licsber.shell:memobird',
         ],
     },
     classifiers=[

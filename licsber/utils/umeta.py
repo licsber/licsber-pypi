@@ -22,25 +22,32 @@ class Meta:
         }
         self._cal_all()
 
-    def get_115_link(self):
+    @property
+    def link_115(self):
         return f"115://{self.basename}|{self.size}|{self.sha1}|{self.head_sha1}"
 
-    def get_ali_link(self):
+    @property
+    def link_ali(self):
         return f"aliyunpan://{self.basename}|{self.sha1}|{self.size}|TMP[Licsber]"
 
-    def get_baidu_link(self):
+    @property
+    def link_baidu(self):
         return f"{self.md5}#{self.head_md5}#{self.size}#{self.basename}"
+
+    @property
+    def csv_header(self):
+        return 'Key,Filename,Size,SHA1,HeadSHA1,MD5,HeadMD5\n'
 
     def save_meta(self):
         with open(self.abspath + '.licsber.csv', 'w') as f:
             f.write(str(self))
 
     def __str__(self):
-        res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5,HeadMD5\n'
+        res = self.csv_header
         res += f"Value,{self.basename},{self.size},{self.sha1},{self.head_sha1},{self.md5},{self.head_md5}\n"
-        res += f",,,,,,{self.get_115_link()}\n"
-        res += f",,,,,,{self.get_ali_link()}\n"
-        res += f",,,,,,{self.get_baidu_link()}"
+        res += f",,,,,,{self.link_115}\n"
+        res += f",,,,,,{self.link_ali}\n"
+        res += f",,,,,,{self.link_baidu}"
         return res
 
     @property
@@ -113,4 +120,4 @@ if __name__ == '__main__':
     meta = Meta(test_path)
     meta.save_meta()
     print(meta, end='')
-    assert meta.get_115_link() == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'
+    assert meta.link_115 == '115://test.licsber|14|02B02681636CCEDB820385C8A87EA2E1E18ACD5C|C24486ADE0E6AAE9376E4994A7A1267277A13295'

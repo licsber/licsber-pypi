@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from licsber.utils.ufile import fun_check_path_exist, walk_files, all_filepath, save_file
+from licsber.utils.ufile import fun_check_path_exist, walk_files, all_filepath
 from licsber.utils.umeta import Meta
 from licsber.utils.utime import cal_time
 
@@ -13,31 +13,21 @@ def rename(start_path=None):
         meta = Meta(filepath)
         sha1 = meta.sha1
         suffix = os.path.splitext(filepath)[1]
+
         dst_name = f"{sha1}.{suffix}" if not suffix.startswith('.') else f"{sha1}{suffix}"
         dst_path = os.path.join(start_path, dst_name if suffix else sha1)
+        
         os.rename(filepath, dst_path)
 
 
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
-def archive(start_path=None):
-    res = 'Key,Filename,Size,SHA1,HeadSHA1,MD5,HeadMD5\n'
-    for filepath in all_filepath(start_path):
-        filepath = os.path.relpath(filepath)
-        meta = Meta(filepath)
-        res += str(meta).split('\n')[1]
-
-    save_file(start_path, 'tree.licsber.csv', res)
-
-
-@cal_time(output=True)
-@fun_check_path_exist(clean=True)
 def flatten_dir(start_path=None):
-    all = []
-    walk_files(all, start_path)
+    files = []
+    walk_files(files, start_path)
 
     start_len = len(start_path)
-    for i in all:
+    for i in files:
         dst = i[start_len + 1:]
         dst = dst.replace(os.sep, '-')
         dst = os.path.join(start_path, dst)

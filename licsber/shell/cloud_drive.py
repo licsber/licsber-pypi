@@ -2,34 +2,9 @@ import json
 import os
 import sys
 
-import tqdm
-
-from licsber.utils.ufile import fun_check_path_exist, all_filepath, save_file
+from licsber.utils.ufile import fun_check_path_exist, save_file
 from licsber.utils.umeta import Meta
 from licsber.utils.utime import cal_time
-
-
-@cal_time(output=True)
-@fun_check_path_exist(clean=True)
-def save_115_link(start_path=None):
-    """
-    预计将要废弃 请使用save-115-dir这个更好用的命令
-    :param start_path: 
-    :return:
-    """
-    if os.path.isfile(start_path):
-        meta = Meta(start_path)
-        print(meta)
-        return
-
-    res = ''
-    waiting = list(all_filepath(start_path))
-    waiting.sort()
-    for filepath in tqdm.tqdm(waiting):
-        meta = Meta(filepath)
-        res += meta.get_115_link() + '\n'
-
-    save_file(start_path, '115_links.txt', res)
 
 
 @cal_time(output=True)
@@ -39,9 +14,12 @@ def save_115_dir(start_path=None):
         print(f"选定目录错误: {start_path}")
         return
 
-    save_path = os.path.join(start_path, 'licsber_115.json')
+    save_json_name = 'licsber-bak.json'
+    save_path = os.path.join(start_path, save_json_name)
     if os.path.exists(save_path):
-        os.remove(save_path)
+        print(f"已存在归档文件: {save_path}")
+        dst_path = os.path.join(start_path, 'licsber-bak-old.json')
+        os.rename(save_path, dst_path)
 
     def build(root):
         node = {
@@ -53,26 +31,37 @@ def save_115_dir(start_path=None):
         for i in os.listdir(root):
             path = os.path.join(root, i)
             if os.path.isdir(path):
+                # 去除威联通QNAP-NAS中的缓存文件夹
                 if os.path.basename(path) in {'.@__thumb', '@Recycle', '@Transcode'}:
                     continue
 
-                node['dirs'].extend([build(path)])
+                exists_path = os.path.join(path, save_json_name)
+                if os.path.exists(exists_path):
+                    dir_info = json.load(open(exists_path))
+                else:
+                    dir_info = build(path)
+
+                node['dirs'].extend([dir_info])
             elif os.path.isfile(path):
                 meta = Meta(path)
-                link = meta.get_115_link().lstrip('115://')
-                baidu_link = meta.get_baidu_link()
-                node['files'].append(link)
-                node['baidu'].append(baidu_link)
+                node['files'].append(meta.link_115.lstrip('115://'))
+                node['baidu'].append(meta.link_baidu)
 
         return node
 
     res = build(start_path)
-    save_file(start_path, 'licsber_115.json', json.dumps(res))
+    save_file(start_path, save_json_name, json.dumps(res))
 
 
 @cal_time(output=True)
 @fun_check_path_exist()
 def conv(start_path=None):
+    """
+    兼容格式如下:
+    https://github.com/orzogc/fake115uploader
+    :param start_path:
+    :return:
+    """
     if not os.path.isfile(start_path):
         print(f"需要传入合法的115link文件: {start_path}")
         exit(-1)

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import sys
@@ -18,6 +19,9 @@ def save_115_dir(start_path=None):
     save_path = os.path.join(start_path, save_json_name)
     if os.path.exists(save_path):
         print(f"已存在归档文件: {save_path}")
+        sha1_obj = hashlib.sha1()
+        sha1_obj.update(open(save_path, 'rb').read())
+        print(f"归档文件sha1: {sha1_obj.hexdigest().upper()}")
         dst_path = os.path.join(start_path, 'licsber-bak-old.json')
         os.rename(save_path, dst_path)
 
@@ -43,6 +47,9 @@ def save_115_dir(start_path=None):
 
                 node['dirs'].extend([dir_info])
             elif os.path.isfile(path):
+                if os.path.basename(path) in {save_json_name, 'licsber-bak-old.json'}:
+                    continue
+
                 meta = Meta(path)
                 node['files'].append(meta.link_115.lstrip('115://'))
                 node['baidu'].append(meta.link_baidu)
@@ -50,7 +57,11 @@ def save_115_dir(start_path=None):
         return node
 
     res = build(start_path)
-    save_file(start_path, save_json_name, json.dumps(res))
+    dir_info = json.dumps(res)
+    sha1_obj = hashlib.sha1()
+    sha1_obj.update(dir_info.encode())
+    print(f"归档文件sha1: {sha1_obj.hexdigest().upper()}")
+    save_file(start_path, save_json_name, dir_info)
 
 
 @cal_time(output=True)

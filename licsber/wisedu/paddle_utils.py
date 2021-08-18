@@ -10,8 +10,8 @@ CHANNEL, HEIGHT, WIDTH = (3, 34, 92)
 CHAR_LIST = '12345678ABCDEFHKNPQXYZabcdefhknpxyz'
 
 _now_path = os.path.dirname(__file__)
-MODEL_PATH = os.path.join(_now_path, '../auth/models', 'inference.pdmodel')
-PARAMS_PATH = os.path.join(_now_path, '../auth/models', 'inference.pdiparams')
+MODEL_PATH = os.path.join(_now_path, 'models', 'inference.pdmodel')
+PARAMS_PATH = os.path.join(_now_path, 'models', 'inference.pdiparams')
 
 _config = pi.Config(MODEL_PATH, PARAMS_PATH)
 _predictor = pi.create_predictor(_config)

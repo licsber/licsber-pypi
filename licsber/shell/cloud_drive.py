@@ -11,6 +11,11 @@ from licsber.utils.utime import cal_time
 @cal_time(output=True)
 @fun_check_path_exist(clean=True)
 def save_115_dir(start_path=None):
+    if os.path.isfile(start_path):
+        meta = Meta(start_path)
+        print(meta)
+        return
+
     if not os.path.isdir(start_path):
         print(f"选定目录错误: {start_path}")
         return

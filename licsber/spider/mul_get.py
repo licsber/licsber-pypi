@@ -8,7 +8,7 @@ from typing import Tuple
 
 import requests
 
-from .session import get_session
+from .get_session import get_session
 
 
 def _get_content(session: requests.Session, url: str, timeout: int):

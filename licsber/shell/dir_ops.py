@@ -11,12 +11,14 @@ from licsber.utils.utime import cal_time
 def rename(start_path=None):
     for filepath in all_filepath(start_path):
         meta = Meta(filepath)
+        size = meta.size
         sha1 = meta.sha1
+        filename = f"{size}_{sha1}"
         suffix = os.path.splitext(filepath)[1]
 
-        dst_name = f"{sha1}.{suffix}" if not suffix.startswith('.') else f"{sha1}{suffix}"
-        dst_path = os.path.join(start_path, dst_name if suffix else sha1)
-        
+        dst_name = f"{filename}.{suffix}" if not suffix.startswith('.') else f"{filename}{suffix}"
+        dst_path = os.path.join(start_path, dst_name if suffix else filename)
+
         os.rename(filepath, dst_path)
 
 

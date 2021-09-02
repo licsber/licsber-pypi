@@ -33,6 +33,8 @@ github: 用于Github Actions的封装
 
 ## 版本说明
 
+4.4.4 增加batch_update函数.  
+4.4.1 增加爬虫使用的check_force函数.  
 4.4.0 增加get_s3函数获取S3对象存储.  
 4.3.0 rename命令增加文件size防sha-1碰撞.  
 4.2.2 增加save-115-dir命令的缓存功能.  

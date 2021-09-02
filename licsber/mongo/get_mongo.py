@@ -20,7 +20,7 @@ class Mongo:
 
 
 def get_mongo(passwd_b64=get_secret('MONGO_PASSWD_B64'),
-              host='mongodb://mongo.licsber.site',
+              host=get_secret('L_MONGO_HOST'),
               port=47107, db_name='auto', username='Automatic',
               connect=True):
     """
@@ -35,6 +35,9 @@ def get_mongo(passwd_b64=get_secret('MONGO_PASSWD_B64'),
     """
     if not passwd_b64:
         passwd_b64 = input('请输入mongo数据库连接密码(base64表示).')
+
+    if not host:
+        host = 'mongodb://mongo.licsber.site'
 
     passwd = base64.b64decode(passwd_b64).decode('utf-8')
     c = MongoClient(host, port, connect=connect)

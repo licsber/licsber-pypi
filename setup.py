@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='4.4.0',
+    version='4.4.4',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',

@@ -50,7 +50,7 @@ class SMTP:
         except smtplib.SMTPException:
             return False
 
-    def notice_mail_to(self, mail_title: str, title: str, detail: any,
+    def notice_mail_to(self, mail_title: str, content_title: str, detail: any,
                        receiver=None,
                        mail_from='Licsber Automatic'):
         if not receiver:
@@ -70,7 +70,7 @@ class SMTP:
         msg['Subject'] = Header(mail_title, 'utf-8')
         template_path = os.path.join(os.path.dirname(__file__), 'notice_template.html')
         html = open(template_path).read()
-        html = html.replace('{{title}}', title)
+        html = html.replace('{{title}}', content_title)
         html = html.replace('{{detail}}', detail)
 
         html = MIMEText(html, 'html')

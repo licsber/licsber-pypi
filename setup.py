@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='4.5.0',
+    version='5.0.0',
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -31,6 +31,12 @@ setuptools.setup(
             'minio',
             'h5py',
             'matplotlib',
+            'torch',
+            'torchvision',
+        ],
+        'ml': [
+            'torch',
+            'torchvision',
         ],
         'cv': [
             'opencv-python',

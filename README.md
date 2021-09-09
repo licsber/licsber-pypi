@@ -33,6 +33,7 @@ github: 用于Github Actions的封装
 
 ## 版本说明
 
+5.0.0 依赖torch和torchvision.  
 4.5.0 增加ThreadPoolExecutor与tqdm的封装.  
 4.4.4 增加batch_update函数.  
 4.4.1 增加爬虫使用的check_force函数.  

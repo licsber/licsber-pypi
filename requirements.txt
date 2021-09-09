@@ -34,8 +34,11 @@ requests-toolbelt==0.9.1
 rfc3986==1.5.0
 six==1.16.0
 soupsieve==2.2.1
+torch==1.9.0
+torchvision==0.10.0
 tqdm==4.62.2
 twine==3.4.2
+typing-extensions==3.10.0.2
 urllib3==1.26.6
 webencodings==0.5.1
 zipp==3.5.0

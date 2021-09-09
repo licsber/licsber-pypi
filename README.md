@@ -33,6 +33,7 @@ github: 用于Github Actions的封装
 
 ## 版本说明
 
+5.1.0 增加基础cifar10分类示例.  
 5.0.0 依赖torch和torchvision.  
 4.5.0 增加ThreadPoolExecutor与tqdm的封装.  
 4.4.4 增加batch_update函数.  
@@ -84,4 +85,16 @@ x: 不兼容的大更新 如依赖库发生的改变
 y: 兼容的功能更新  
 z: bug fix
 
-中间被略过的版本一般是bug fix, 切记不要使用.  
+中间被略过的版本一般是bug fix, 切记不要使用.
+
+## 环境变量
+
+```bash
+export L_MONGO_HOST='mongodb://{mongo服务器地址}'
+export MONGO_PASSWD_B64='{mongo服务器密码}'
+export L_S3_ENDPOINT='{s3服务器地址 不带schema}'
+export L_S3_ACCESS='{s3服务器ak}'
+export L_S3_SECRET='{s3服务器sk}'
+export DATASETS_ROOT='{数据集文件夹根目录}'
+export CHECKPOINT_ROOT='{训练中间文件目录}'
+```

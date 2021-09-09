@@ -8,7 +8,8 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='licsber',
-    version='5.0.0',
+    version=open('licsber/__init__.py').read()
+        .split('\n')[0].lstrip('__version__ = ').strip("'"),
     author='Licsber',
     author_email='licsber@gmail.com',
     url='https://www.cnblogs.com/licsber/',
@@ -34,7 +35,7 @@ setuptools.setup(
             'torch',
             'torchvision',
         ],
-        'ml': [
+        'dl': [
             'torch',
             'torchvision',
         ],

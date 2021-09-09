@@ -34,10 +34,12 @@ setuptools.setup(
             'matplotlib',
             'torch',
             'torchvision',
+            'ipywidgets',
         ],
         'dl': [
             'torch',
             'torchvision',
+            'ipywidgets',
         ],
         'cv': [
             'opencv-python',

@@ -33,7 +33,8 @@ github: 用于Github Actions的封装
 
 ## 版本说明
 
-5.1.5 增加基础cifar10分类示例.  
+5.2.0 增加UrlCache 方便爬虫快速过滤无效host.  
+5.1.9 增加基础cifar10分类示例.  
 5.0.0 依赖torch和torchvision.  
 4.5.0 增加ThreadPoolExecutor与tqdm的封装.  
 4.4.4 增加batch_update函数.  

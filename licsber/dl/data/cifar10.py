@@ -38,7 +38,7 @@ def loader(transform_train=None, transform_test=None, batch_size=256, workers=2,
     kwargs = {
         'batch_size': batch_size,
         'num_workers': workers,
-        'pin_memory': pin_memory
+        'pin_memory': pin_memory,
     }
     # noinspection PyUnresolvedReferences
     train_loader = torch.utils.data.DataLoader(train_datasets, shuffle=True, **kwargs)

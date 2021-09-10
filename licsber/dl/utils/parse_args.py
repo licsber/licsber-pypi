@@ -11,9 +11,15 @@ class Args:
         self.workers = args.workers
         self.print_freq = args.print_freq
         self.gpu = args.gpu
+        self.device = f'cuda:{self.gpu}' if self.gpu != -1 else 'cpu'
+        self.start = args.start
+        self.resume = args.resume
 
     def __str__(self):
         return str(self.args)
+
+    def __repr__(self):
+        return self.__class__.__name__ + str(self)
 
 
 def parse_args(args=None):
@@ -35,5 +41,9 @@ def parse_args(args=None):
                         metavar='N', help='print frequency (default: 10)')
     parser.add_argument('--gpu', default=0, type=int,
                         help='GPU id to use.')
+    parser.add_argument('--start', default=0, type=int,
+                        help='Epochs to be resumed.')
+    parser.add_argument('--resume', '-r', action='store_true',
+                        help='resume from checkpoint')
     args = parser.parse_args(args)
     return Args(args)

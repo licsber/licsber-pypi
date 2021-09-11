@@ -17,6 +17,10 @@ class UrlCache:
         self.fail_host = Counter()
         self.fail_threshold = fail_threshold
 
+    def check(self, url):
+        host = parse_host(url)
+        return self.fail_host[host] < self.fail_threshold
+
     def fail(self, url):
         host = parse_host(url)
         self.fail_host[host] += 1
@@ -29,8 +33,7 @@ class UrlCache:
 
     def __next__(self):
         url = self._url_next()
-        host = parse_host(url)
-        while self.fail_host[host] >= self.fail_threshold:
+        while not self.check(url):
             url = self._url_next()
         else:
             return url

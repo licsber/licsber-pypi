@@ -1,10 +1,12 @@
 import argparse
+import sys
 
 
 class Args:
     def __init__(self, args):
         self.args = args
         self.batch_size = args.batch_size
+        self.img_size = args.img_size
         self.epochs = args.epochs
         self.lr = args.lr
         self.momentum = args.momentum
@@ -14,6 +16,11 @@ class Args:
         self.device = f'cuda:{self.gpu}' if self.gpu != -1 else 'cpu'
         self.start = args.start
         self.resume = args.resume
+
+        self.mac = sys.platform == 'darwin'
+        if self.mac:
+            self.gpu = -1
+            self.device = 'cpu'
 
     def __str__(self):
         return str(self.args)
@@ -29,9 +36,12 @@ def parse_args(args=None):
                         help='mini-batch size (default: 256), this is the total '
                              'batch size of all GPUs on the current node when '
                              'using Data Parallel or Distributed Data Parallel')
-    parser.add_argument('--epochs', default=90, type=int, metavar='N',
+    parser.add_argument('-i', '--img-size', default=224, type=int,
+                        metavar='N',
+                        help='img square size')
+    parser.add_argument('-e', '--epochs', default=1000, type=int, metavar='N',
                         help='number of total epochs to run')
-    parser.add_argument('--lr', '-l', '--learning-rate', default=0.1, type=float,
+    parser.add_argument('-l', '--lr', '--learning-rate', default=0.1, type=float,
                         metavar='LR', help='initial learning rate', dest='lr')
     parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                         help='momentum')

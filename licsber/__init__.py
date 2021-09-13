@@ -1,2 +1,2 @@
-__version__ = '5.2.5'
+__version__ = '5.3.1'
 print(f"licsber库版本: {__version__}")

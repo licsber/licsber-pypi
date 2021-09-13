@@ -11,9 +11,7 @@ memobird: 发送咕咕机消息.
 count-dir: 统计目录下的文件与目录数.  
 flatten-dir: 递归展开当前目录下所有子文件夹到当前目录.  
 empty-dir: 递归删除当前目录下所有空文件夹.    
-archive: 生成当前目录下的所有文件的SHA1和MD5校验码.   
 rename: 将单个目录内所有文件重命名为SHA1值.  
-save-115: 将目录下所有文件保存为115Link形式.  
 save-115-dir: 递归将整个目录目录保存为115Link形式.  
 conv: 将115Link转化为阿里云盘Link.
 
@@ -21,19 +19,19 @@ conv: 将115Link转化为阿里云盘Link.
 
 cv: 数据集拍照助手|notebook环境imshow  
 datasets: 个人制作发布的数据集(仅在群里公开过)  
+dl: 深度学习相关工具包.  
 mail: 含一个美化过的提醒模板用于bot任务  
-ml: MachineLearning常用的封装  
 mongo: PyMongo的封装|与s3配合可以实现一个元数据与内容分离的FS  
 s3: MinIO库的封装|包含离线制作OSS签名|随机取OSS内容  
 shell: licsber库提供的shell命令|查看代码后谨慎使用  
 spider: 爬虫封装|获取自定义session|多线程下载  
 utils: 标准库封装 不会出现任何第三方库  
 wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证  
-github: 用于Github Actions的封装
 
 ## 版本说明
 
-5.2.5 增加UrlCache 方便爬虫快速过滤无效host.  
+5.3.1 修改文档 修改parse_arg的默认参数.  
+5.2.9 增加UrlCache 方便爬虫快速过滤无效host.  
 5.1.9 增加基础cifar10分类示例.  
 5.0.0 依赖torch和torchvision.  
 4.5.0 增加ThreadPoolExecutor与tqdm的封装.  

@@ -26,11 +26,12 @@ s3: MinIO库的封装|包含离线制作OSS签名|随机取OSS内容
 shell: licsber库提供的shell命令|查看代码后谨慎使用  
 spider: 爬虫封装|获取自定义session|多线程下载  
 utils: 标准库封装 不会出现任何第三方库  
-wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证  
+wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证
 
 ## 版本说明
 
-5.3.1 修改文档 修改parse_arg的默认参数.  
+5.4.0 更改save-115-dir的行为 不会创建更多文件.  
+5.3.2 修改文档 修改parse_arg的默认参数.  
 5.2.9 增加UrlCache 方便爬虫快速过滤无效host.  
 5.1.9 增加基础cifar10分类示例.  
 5.0.0 依赖torch和torchvision.  

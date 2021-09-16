@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+from pathlib import Path
 
 from licsber.dl import CHECKPOINT_ROOT
 
@@ -8,7 +9,8 @@ from licsber.dl import CHECKPOINT_ROOT
 class Args:
     def __init__(self, args):
         self.args = args
-        self.save_path = args.save_path
+        self.save_path = Path(args.save_path)
+        self.save_path.mkdir(exist_ok=True)
         self.batch_size = args.batch_size
         self.img_size = args.img_size
         self.epochs = args.epochs

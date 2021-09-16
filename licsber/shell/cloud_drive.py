@@ -22,13 +22,16 @@ def save_115_dir(start_path=None):
 
     save_json_name = 'licsber-bak.json'
     save_path = os.path.join(start_path, save_json_name)
+    old_path = os.path.join(start_path, 'licsber-bak-old.json')
+
+    exist_sha1 = ''
     if os.path.exists(save_path):
         print(f"已存在归档文件: {save_path}")
         sha1_obj = hashlib.sha1()
         sha1_obj.update(open(save_path, 'rb').read())
-        print(f"归档文件sha1: {sha1_obj.hexdigest().upper()}")
-        dst_path = os.path.join(start_path, 'licsber-bak-old.json')
-        os.rename(save_path, dst_path)
+        exist_sha1 = sha1_obj.hexdigest().upper()
+        print(f"归档文件sha1: {exist_sha1}")
+        os.rename(save_path, old_path)
 
     def build(root):
         node = {
@@ -65,7 +68,12 @@ def save_115_dir(start_path=None):
     dir_info = json.dumps(res)
     sha1_obj = hashlib.sha1()
     sha1_obj.update(dir_info.encode())
-    print(f"归档文件sha1: {sha1_obj.hexdigest().upper()}")
+    sha1 = sha1_obj.hexdigest().upper()
+    print(f"归档文件sha1: {sha1}")
+    if exist_sha1 and exist_sha1 == sha1:
+        print('校验通过.')
+        os.remove(old_path)
+
     save_file(start_path, save_json_name, dir_info)
 
 

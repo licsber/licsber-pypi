@@ -1,6 +1,9 @@
 import functools
+import os
 import random
 import time
+
+os.environ['TZ'] = 'Asia/Shanghai'
 
 
 def localtime_date_str() -> str:

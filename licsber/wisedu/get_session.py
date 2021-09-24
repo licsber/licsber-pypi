@@ -1,3 +1,5 @@
+import time
+
 from bs4 import BeautifulSoup as bs4
 from requests.compat import urljoin
 
@@ -6,7 +8,7 @@ from .paddle_utils import predict_captcha
 from .wisedu_utils import need_captcha, check_captcha, get_captcha, encrypt
 
 
-def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):
+def get_wisedu_session(url, no, pwd, captcha_retry=99, remember_me=True):
     """
     对接"金智教务统一登录系统"的API.
     :param url: 访问跳转登录页的url, 通常以authserver开头.
@@ -18,6 +20,8 @@ def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):
     """
 
     def retry(session):
+        nonlocal pwd_error
+
         require_captcha = need_captcha(url, session, no)
         captcha = ''
         if require_captcha:
@@ -26,12 +30,14 @@ def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):
                 captcha = predict_captcha(content)
 
         res = session.get(url)
+        origin_cookie_nums = len(session.cookies)
+
         data = {
-            "lt": None,
-            "dllt": None,
-            "execution": None,
-            "_eventId": None,
-            "rmShown": None,
+            'lt': None,
+            'dllt': None,
+            'execution': None,
+            '_eventId': None,
+            'rmShown': None,
             'pwdDefaultEncryptSalt': None
         }
 
@@ -52,11 +58,22 @@ def get_wisedu_session(url, no, pwd, captcha_retry=5, remember_me=True):
         if require_captcha:
             data['captchaResponse'] = captcha
 
-        session.post(login_url, data=data)
-        return len(session.cookies) != 2
+        res = session.post(login_url, data=data)
+        if '您提供的用户名或者密码有误' in res.text:
+            print(f"{no}: 密码错误.")
+            pwd_error = True
+
+        return len(session.cookies) != origin_cookie_nums
 
     s = get_session()
+
+    pwd_error = False
     while captcha_retry and not retry(s):
+        if pwd_error:
+            break
+
+        print(f"{no}: 登录失败 重试中.")
         captcha_retry -= 1
+        time.sleep(0.05 * captcha_retry)
 
     return s

@@ -30,6 +30,7 @@ wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证
 
 ## 版本说明
 
+5.5.0 utime库默认时区为Asia/Shanghai.  
 5.4.0 更改save-115-dir的行为 不会创建更多文件.  
 5.3.2 修改文档 修改parse_arg的默认参数.  
 5.2.9 增加UrlCache 方便爬虫快速过滤无效host.  

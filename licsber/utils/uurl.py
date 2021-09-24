@@ -9,6 +9,13 @@ def parse_host(url):
 
 
 class UrlCache:
+    """
+    爬虫过程经常会碰到Connection Error,
+    因此为了节省时间, 我们可以手动设定一个阈值,
+    如果一个域名一直都请求超时, 就将此域名过滤.
+    注意不适用于多进程情况.
+    """
+
     def __init__(self, url_iterator, fail_threshold=50):
         self._cache = set()
         for url in url_iterator:

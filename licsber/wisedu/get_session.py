@@ -8,7 +8,7 @@ from .paddle_utils import predict_captcha
 from .wisedu_utils import need_captcha, check_captcha, get_captcha, encrypt
 
 
-def get_wisedu_session(url, no, pwd, captcha_retry=99, remember_me=True):
+def get_wisedu_session(url, no, pwd, captcha_retry=99, remember_me=True, custom_session=None):
     """
     对接"金智教务统一登录系统"的API.
     :param url: 访问跳转登录页的url, 通常以authserver开头.
@@ -16,6 +16,7 @@ def get_wisedu_session(url, no, pwd, captcha_retry=99, remember_me=True):
     :param pwd: 密码.
     :param captcha_retry: 默认验证码重试次数(准确率90%以上).
     :param remember_me: 是否勾选免登录.
+    :param custom_session: 自定义session 用于支持vpn.
     :return: 一个登录完成的session, 可以继续访问接下来的网页.
     """
 
@@ -65,7 +66,7 @@ def get_wisedu_session(url, no, pwd, captcha_retry=99, remember_me=True):
 
         return len(session.cookies) != origin_cookie_nums
 
-    s = get_session()
+    s = custom_session if custom_session else get_session()
 
     pwd_error = False
     while captcha_retry and not retry(s):

@@ -46,6 +46,7 @@ setuptools.setup(
             'matplotlib',
         ],
         'wisedu': [
+            'matplotlib',
             'opencv-python',
             'pycryptodome',
             'beautifulsoup4',
@@ -67,7 +68,8 @@ setuptools.setup(
             'rename=licsber.shell.dir_ops:rename',
             'save-115-dir=licsber.shell.cloud_drive:save_115_dir',
             'conv=licsber.shell.cloud_drive:conv',
-            'memobird=licsber.shell:memobird',
+            'memobird=licsber.shell.memobird:memobird',
+            'sct=licsber.shell.server_chan:sct',
         ],
     },
     classifiers=[

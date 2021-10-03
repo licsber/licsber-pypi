@@ -30,6 +30,9 @@ wisedu: 金智教务验证码识别|模拟登录|腾讯云函数hmac认证
 
 ## 版本说明
 
+5.7.0 增加sct_send函数 支持Server酱.  
+5.6.1 save-115-dir支援ipfs的sha2-256模式.  
+5.6.0 get_wisedu_session支持传入已有session.  
 5.5.0 utime库默认时区为Asia/Shanghai.  
 5.4.0 更改save-115-dir的行为 不会创建更多文件.  
 5.3.2 修改文档 修改parse_arg的默认参数.  
@@ -98,4 +101,5 @@ export L_S3_ACCESS='{s3服务器ak}'
 export L_S3_SECRET='{s3服务器sk}'
 export DATASETS_ROOT='{数据集文件夹根目录}'
 export CHECKPOINT_ROOT='{训练中间文件目录}'
+export SCT_KEY='{Server酱SendKey}'
 ```
